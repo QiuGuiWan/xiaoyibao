@@ -1,1796 +1,2071 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>小覃 & 小怡 · 圣诞纪念日</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Noto Sans SC', sans-serif;
-      /* 自定义图片背景 - 请替换为你的图片URL */
-      background: url('https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlCRpPFhdLtaIROhbX-Winf_hvsdfrgACtyIAAlAH4FXXCWyP8cltFjYE.jpg') no-repeat center center fixed;
-      background-size: cover;
-      color: #f0f0f0;
-      min-height: 100vh;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* 背景遮罩，确保文字可读性 */
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(10, 15, 30, 0.5);
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* === 浮屏雪花效果 === */
-    #floatSnowCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    /* === 霓虹文字效果 === */
-    .neon-text {
-      text-shadow: 
-        0 0 5px #fff,
-        0 0 10px #fff,
-        0 0 20px #ff6b6b,
-        0 0 30px #ff6b6b,
-        0 0 40px #ff6b6b;
-      animation: neonPulse 1.5s ease-in-out infinite alternate;
-    }
-
-    @keyframes neonPulse {
-      from {
-        text-shadow: 
-          0 0 5px #fff,
-          0 0 10px #fff,
-          0 0 20px #ff6b6b,
-          0 0 30px #ff6b6b,
-          0 0 40px #ff6b6b;
-      }
-      to {
-        text-shadow: 
-          0 0 10px #fff,
-          0 0 20px #ffd700,
-          0 0 30px #ffd700,
-          0 0 40px #ffd700,
-          0 0 50px #ffd700;
-      }
-    }
-
-    /* === 立体卡片效果 === */
-    .card-3d {
-      transform-style: preserve-3d;
-      transition: transform 0.5s ease;
-    }
-
-    .card-3d:hover {
-      transform: rotateY(10deg) rotateX(5deg) translateZ(10px);
-    }
-
-    /* === 打字机效果 === */
-    .typewriter {
-      overflow: hidden;
-      border-right: 3px solid #ff6b6b;
-      white-space: nowrap;
-      animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-    }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 100% }
-    }
-
-    @keyframes blink-caret {
-      from, to { border-color: transparent }
-      50% { border-color: #ff6b6b }
-    }
-
-    /* === 进度条样式 === */
-    .progress-container {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      margin: 15px 0;
-      overflow: hidden;
-    }
-
-    .progress-bar {
-      height: 100%;
-      background: linear-gradient(90deg, #ff6b6b, #ffd700);
-      border-radius: 4px;
-      transition: width 1s ease;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .progress-bar::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 20px;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      animation: progressShine 2s infinite;
-    }
-
-    @keyframes progressShine {
-      0% { left: -20px; }
-      100% { left: 100%; }
-    }
-
-    /* === 时间线样式 === */
-    .timeline {
-      position: relative;
-      padding: 20px 0;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 2px;
-      height: 100%;
-      background: linear-gradient(to bottom, #ff6b6b, #ffd700);
-    }
-
-    .timeline-item {
-      position: relative;
-      margin: 30px 0;
-      width: 45%;
-      padding: 15px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 10px;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-    }
-
-    .timeline-item:nth-child(odd) {
-      margin-left: auto;
-    }
-
-    .timeline-item:nth-child(even) {
-      margin-right: auto;
-    }
-
-    .timeline-date {
-      color: #ffd700;
-      font-size: 0.9em;
-      margin-bottom: 5px;
-    }
-
-    /* === 容器样式 - 提高透明度 === */
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      display: flex;
-      gap: 30px;
-      padding: 30px;
-      background: rgba(20, 25, 40, 0.7); /* 提高透明度 */
-      border-radius: 28px;
-      box-shadow: 
-        0 12px 50px rgba(139, 0, 0, 0.2),
-        0 0 0 1px rgba(255, 215, 0, 0.2);
-      animation: fadeIn 1s cubic-bezier(0.23, 1, 0.32, 1);
-      position: relative;
-      z-index: 10;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    /* 添加容器发光边缘效果 */
-    .container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      border-radius: 28px;
-      padding: 2px;
-      background: linear-gradient(135deg, 
-        rgba(255, 107, 107, 0.3), 
-        rgba(255, 215, 0, 0.2), 
-        rgba(255, 107, 107, 0.3));
-      -webkit-mask: 
-        linear-gradient(#fff 0 0) content-box, 
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* === 左侧边栏 === */
-    .left-side {
-      width: 220px;
-      text-align: center;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-      background: rgba(30, 35, 50, 0.6); /* 提高透明度 */
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    /* === 右侧边栏 === */
-    .right-side {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-      background: rgba(30, 35, 50, 0.6); /* 提高透明度 */
-      border-radius: 20px;
-      padding: 25px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 
-        0 4px 20px rgba(0, 0, 0, 0.2);
-    }
-
-    .person-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      background: rgba(40, 45, 60, 0.6); /* 提高透明度 */
-      border-radius: 15px;
-      padding: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      transition: all 0.4s ease;
-    }
-
-    .person-card:hover {
-      background: rgba(50, 55, 70, 0.7);
-      transform: translateY(-5px);
-      box-shadow: 
-        0 10px 25px rgba(0, 0, 0, 0.3),
-        0 0 20px rgba(255, 107, 107, 0.2);
-    }
-
-    .avatar {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid #ffd700;
-      box-shadow: 
-        0 0 25px rgba(255, 215, 0, 0.6),
-        inset 0 0 20px rgba(255, 255, 255, 0.1);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      cursor: pointer;
-      position: relative;
-      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3));
-    }
-
-    .avatar:hover {
-      transform: scale(1.08) rotate(3deg);
-      box-shadow: 
-        0 0 35px rgba(255, 107, 107, 0.8),
-        inset 0 0 25px rgba(255, 255, 255, 0.2);
-      filter: drop-shadow(0 0 12px rgba(255, 107, 107, 0.4));
-    }
-
-    .name {
-      margin-top: 10px;
-      font-weight: 700;
-      font-size: 1.3em;
-      color: #ff6b6b;
-      text-shadow: 0 0 10px rgba(255, 107, 107, 0.5);
-      background: linear-gradient(90deg, #ff6b6b, #ffd700);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .role {
-      font-size: 0.9em;
-      color: rgba(255, 255, 255, 0.9);
-      margin-bottom: 4px;
-    }
-
-    .tagline {
-      font-size: 1em;
-      color: #ffd700;
-      margin-top: 15px;
-      font-style: italic;
-      text-align: center;
-      text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
-      background: rgba(255, 215, 0, 0.15);
-      padding: 10px 15px;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-    }
-
-    h1 {
-      text-align: center;
-      font-weight: 700;
-      font-size: 2em;
-      color: transparent;
-      background: linear-gradient(90deg, #ffd700, #ff6b6b, #ffd700);
-      background-size: 300% 300%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 2px;
-      animation: gradientShift 6s ease infinite;
-      padding-bottom: 12px;
-      position: relative;
-      background-color: rgba(255, 255, 255, 0.08);
-      padding: 15px;
-      border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .timer-container {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .flip-unit {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 70px;
-    }
-
-    .flip-digit {
-      font-size: 2.4em;
-      font-weight: bold;
-      background: linear-gradient(to bottom, #ff6b6b, #c0392b);
-      padding: 14px;
-      border-radius: 14px;
-      width: 100%;
-      text-align: center;
-      color: white;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
-      box-shadow: 
-        0 6px 15px rgba(0,0,0,0.4),
-        inset 0 2px 0 rgba(255,255,255,0.2);
-      position: relative;
-      overflow: hidden;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .flip-digit::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(rgba(255,255,255,0.1), transparent);
-      pointer-events: none;
-    }
-
-    .flip-label {
-      margin-top: 8px;
-      font-size: 0.95em;
-      color: #ffd700;
-      font-weight: 500;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 12px 26px;
-      border: none;
-      border-radius: 32px;
-      background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-      color: white;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 
-        0 5px 15px rgba(255, 107, 107, 0.45),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
-      position: relative;
-      overflow: hidden;
-      font-family: inherit;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0; left: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      transition: left 0.6s;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px) scale(1.04);
-      box-shadow: 
-        0 8px 20px rgba(255, 107, 107, 0.7),
-        0 0 0 1px rgba(255, 255, 255, 0.3);
-    }
-
-    .btn:hover::before {
-      left: 100%;
-    }
-
-    .btn.active {
-      background: linear-gradient(135deg, #ffd700, #ffaa00);
-      color: #1a1a2e;
-      box-shadow: 
-        0 5px 20px rgba(255, 215, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.3);
-    }
-
-    .music-btn {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      background: rgba(30, 30, 40, 0.8);
-      border: 2px solid #ffd700;
-      color: #ffd700;
-      font-size: 1.3em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 2000;
-      transition: all 0.3s;
-      box-shadow: 
-        0 4px 12px rgba(0,0,0,0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
-    }
-
-    .music-btn:hover {
-      background: rgba(255, 215, 0, 0.3);
-      transform: scale(1.12) rotate(5deg);
-      box-shadow: 
-        0 6px 18px rgba(255, 215, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.3);
-    }
-
-    /* === 内容区域 === */
-    .section {
-      display: none;
-      padding: 24px;
-      background: rgba(25, 30, 45, 0.7); /* 提高透明度 */
-      border-radius: 20px;
-      box-shadow: 
-        0 6px 20px rgba(0,0,0,0.25);
-      animation: slideIn 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-      border: 1px solid rgba(255, 215, 0, 0.25);
-    }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    textarea, input[type="text"] {
-      width: 100%;
-      padding: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 14px;
-      background: rgba(20, 25, 40, 0.7);
-      color: white;
-      resize: vertical;
-      margin-bottom: 14px;
-      font-family: inherit;
-      transition: all 0.3s ease;
-    }
-
-    textarea:focus, input[type="text"]:focus {
-      outline: none;
-      border-color: #ff6b6b;
-      box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.3);
-      background: rgba(20, 25, 40, 0.9);
-    }
-
-    .photo-wall {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-      gap: 12px;
-    }
-
-    .photo-item {
-      border-radius: 12px;
-      overflow: hidden;
-      aspect-ratio: 1;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.45);
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .photo-item:hover {
-      transform: scale(1.06) rotate(1deg);
-      box-shadow: 
-        0 6px 18px rgba(255, 107, 107, 0.5),
-        0 0 0 2px rgba(255, 107, 107, 0.3);
-      border-color: rgba(255, 107, 107, 0.4);
-    }
-
-    .photo-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: auto;
-      padding-top: 24px;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 1em;
-      letter-spacing: 1px;
-      background: rgba(30, 35, 50, 0.6);
-      border-radius: 15px;
-      padding: 15px;
-      margin-top: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    #confettiCanvas, #heartCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 5000;
-    }
-
-    /* 绘画板 */
-    #paintCanvas {
-      background: rgba(15, 20, 30, 0.7);
-      border-radius: 14px;
-      display: block;
-      margin-bottom: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      cursor: crosshair;
-      width: 100%;
-      touch-action: none;
-    }
-
-    .color-palette {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-
-    .color-dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 
-        0 2px 6px rgba(0,0,0,0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    .color-dot.active {
-      transform: scale(1.2);
-      box-shadow: 
-        0 0 0 3px white,
-        0 0 10px rgba(255, 255, 255, 0.5);
-    }
-
-    /* 情话轮播 */
-    .love-quote {
-      text-align: center;
-      font-style: italic;
-      color: #ffd700;
-      margin: 15px 0;
-      min-height: 2em;
-      opacity: 0;
-      animation: fadeQuote 3s ease-in-out infinite;
-      background: rgba(255, 215, 0, 0.15);
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 215, 0, 0.3);
-    }
-
-    @keyframes fadeQuote {
-      0%, 100% { opacity: 0; }
-      10%, 90% { opacity: 1; }
-    }
-
-    /* 接礼物游戏 */
-    #gameArea {
-      position: relative;
-      width: 100%;
-      height: 300px;
-      background: rgba(10, 15, 30, 0.7);
-      border-radius: 16px;
-      overflow: hidden;
-      margin-top: 15px;
-      border: 1px dashed rgba(255, 107, 107, 0.6);
-      box-shadow: 
-        inset 0 0 20px rgba(0, 0, 0, 0.3),
-        0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .gift {
-      position: absolute;
-      font-size: 24px;
-      animation: fall linear forwards;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    }
-
-    @keyframes fall {
-      to { transform: translateY(300px); }
-    }
-
-    .basket {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 32px;
-      z-index: 10;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-    }
-
-    /* 新增：游戏控制按钮 */
-    .game-controls {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 15px;
-    }
-
-    .control-btn {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      border: none;
-      background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
-      color: white;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-      box-shadow: 
-        0 4px 12px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.2);
-    }
-
-    .control-btn.left-btn {
-      background: linear-gradient(135deg, #4ecdc4, #1dd1a1);
-    }
-
-    .control-btn.right-btn {
-      background: linear-gradient(135deg, #54a0ff, #2e86de);
-    }
-
-    .control-btn:hover {
-      transform: scale(1.05);
-      box-shadow: 
-        0 6px 18px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.3);
-    }
-
-    .control-btn:active {
-      transform: scale(0.95);
-    }
-
-    /* 新增：图片放大模态框 */
-    .image-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.9);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      animation: fadeIn 0.3s ease;
-    }
-
-    .image-modal.active {
-      display: flex;
-    }
-
-    .modal-content {
-      max-width: 90%;
-      max-height: 90%;
-      position: relative;
-      background: rgba(30, 35, 50, 0.9);
-      border-radius: 15px;
-      padding: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.4);
-    }
-
-    .modal-content img {
-      max-width: 100%;
-      max-height: 80vh;
-      object-fit: contain;
-      border-radius: 10px;
-      box-shadow: 
-        0 0 30px rgba(255, 215, 0, 0.3);
-    }
-
-    .close-modal {
-      position: absolute;
-      top: -40px;
-      right: 0;
-      background: rgba(255, 107, 107, 0.9);
-      border: none;
-      color: white;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .close-modal:hover {
-      background: #ff6b6b;
-      transform: scale(1.1);
-      box-shadow: 0 0 15px rgba(255, 107, 107, 0.5);
-    }
-
-    .modal-nav {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      padding: 0 20px;
-    }
-
-    .nav-btn {
-      background: rgba(255, 215, 0, 0.9);
-      border: none;
-      color: white;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      font-size: 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-
-    .nav-btn:hover {
-      background: #ffd700;
-      transform: scale(1.1);
-      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
-    }
-
-    /* === 新增：移动端优化 === */
-    @media (max-width: 768px) {
-      .container {
-        flex-direction: column;
-        padding: 20px;
-        margin: 10px;
-        border-radius: 20px;
-      }
-      
-      .left-side, .right-side {
-        width: 100%;
-      }
-      
-      .buttons {
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-      
-      .btn {
-        padding: 10px 20px;
-        font-size: 0.9em;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医学概论期末考试复习答题系统</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f9fc;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #eef5fb;
+            padding: 15px 30px;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .main-content {
+            display: flex;
+            min-height: 600px;
+        }
+        
+        .question-section {
+            flex: 3;
+            padding: 30px;
+            border-right: 1px solid #eee;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        
+        .question-category {
+            background-color: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: inline-block;
+        }
+        
+        .question-number {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .question-text {
+            font-size: 20px;
+            margin-bottom: 30px;
+            line-height: 1.8;
+            min-height: 80px;
+        }
+        
+        .options-container {
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            display: block;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background-color: #edf7ff;
+            border-color: #3498db;
+        }
+        
+        .option.selected {
+            background-color: #e3f2fd;
+            border-color: #2196f3;
+            color: #1976d2;
+        }
+        
+        .option.correct {
+            background-color: #e8f5e9;
+            border-color: #4caf50;
+            color: #2e7d32;
+        }
+        
+        .option.incorrect {
+            background-color: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        
+        .option-label {
+            font-weight: bold;
+            margin-right: 10px;
+            display: inline-block;
+            width: 30px;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e9ecef;
+        }
+        
+        .btn-success {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+        
+        .sidebar {
+            flex: 2;
+            padding: 30px;
+            background-color: #f9fbfd;
+        }
+        
+        .sidebar-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .progress-section {
+            margin-bottom: 30px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .weakness-section {
+            background-color: #fff9e6;
+            border-left: 4px solid #f39c12;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .weakness-title {
+            color: #d35400;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .weakness-list {
+            list-style-type: none;
+        }
+        
+        .weakness-list li {
+            padding: 8px 0;
+            border-bottom: 1px dashed #f1c40f;
+        }
+        
+        .chapter-list {
+            list-style-type: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .chapter-list li {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .chapter-list li:hover {
+            background-color: #f0f7ff;
+            border-color: #3498db;
+        }
+        
+        .chapter-list li.active {
+            background-color: #e3f2fd;
+            border-color: #2196f3;
+            color: #1976d2;
+        }
+        
+        .correction-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            display: none;
+        }
+        
+        .correction-title {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 6px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .explanation-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .result-section {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .result-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+        
+        .result-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        .result-message {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .question-section {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <!-- 浮屏雪花效果 -->
-  <canvas id="floatSnowCanvas"></canvas>
-
-  <!-- 彩带和爱心画布 -->
-  <canvas id="confettiCanvas"></canvas>
-  <canvas id="heartCanvas"></canvas>
-
-  <!-- 新增：图片放大模态框 -->
-  <div class="image-modal" id="imageModal">
-    <div class="modal-content">
-      <button class="close-modal" id="closeModal">×</button>
-      <img id="modalImage" src="" alt="放大图片">
-      <div class="modal-nav">
-        <button class="nav-btn" id="prevBtn">‹</button>
-        <button class="nav-btn" id="nextBtn">›</button>
-      </div>
+    <div class="container">
+        <header>
+            <h1>医学概论期末考试复习答题系统</h1>
+            <p class="subtitle">智能检测 | 错题分析 | 知识点强化</p>
+        </header>
+        
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value" id="total-questions">0</div>
+                <div class="stat-label">总题数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="correct-questions">0</div>
+                <div class="stat-label">正确题数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="accuracy-rate">0%</div>
+                <div class="stat-label">正确率</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="current-question">0</div>
+                <div class="stat-label">当前题号</div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="question-section" id="question-section">
+                <div class="question-header">
+                    <div>
+                        <span class="question-category" id="question-category">解剖学</span>
+                    </div>
+                    <div class="question-number">第 <span id="current-q-num">1</span> 题 / 共 <span id="total-q-num">0</span> 题</div>
+                </div>
+                
+                <div class="question-text" id="question-text">
+                    题目加载中...
+                </div>
+                
+                <div class="options-container" id="options-container">
+                    <!-- 选项会通过JavaScript动态生成 -->
+                </div>
+                
+                <div class="correction-section" id="correction-section">
+                    <div class="correction-title">✍️ 错题更正</div>
+                    <p>您的答案：<span id="user-answer"></span></p>
+                    <p>正确答案：<span id="correct-answer"></span></p>
+                    <div class="explanation">
+                        <div class="explanation-title">AI讲解：</div>
+                        <p id="explanation-text">答案解析加载中...</p>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="btn btn-secondary" id="prev-btn">上一题</button>
+                    <button class="btn btn-primary" id="submit-btn">提交答案</button>
+                    <button class="btn btn-secondary" id="next-btn">下一题</button>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="progress-section">
+                    <h3 class="sidebar-title">答题进度</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>已完成：<span id="answered-count">0</span>题</span>
+                        <span>剩余：<span id="remaining-count">0</span>题</span>
+                    </div>
+                </div>
+                
+                <div class="weakness-section">
+                    <h3 class="weakness-title">⚠️ 薄弱知识点分析</h3>
+                    <p>系统通过智能检测，推测您对以下知识点掌握较为薄弱，现为你推荐相关资源进行补充学习：</p>
+                    <ul class="weakness-list" id="weakness-list">
+                        <li>解剖学：方位术语（近端/远端）</li>
+                        <li>解剖学：器官位置（肺的位置）</li>
+                        <li>生物化学：ATP生成方式</li>
+                    </ul>
+                </div>
+                
+                <div class="chapters-section">
+                    <h3 class="sidebar-title">章节选择</h3>
+                    <ul class="chapter-list" id="chapter-list">
+                        <!-- 章节会通过JavaScript动态生成 -->
+                    </ul>
+                </div>
+                
+                <button class="btn btn-success" id="restart-btn" style="width: 100%; margin-top: 20px;">重新开始练习</button>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <div class="music-btn" id="musicBtn">🔇</div>
-
-  <div class="container">
-    <div class="left-side">
-      <div class="person-card card-3d">
-        <div class="role">👤 靠山</div>
-        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlCVpPFhdLDwXsEMPtgYSlkFFnVaH-AACuCIAAlAH4FUGWAOYnGUZUzYE.jpg" alt="小覃" class="avatar" id="yourAvatar">
-        <div class="name">小覃</div>
-      </div>
-
-      <div class="person-card card-3d">
-        <div class="role">❤️ 小怡大王</div>
-        <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlCNpPFhciQG7hZP5JrunOb-kkUlSSwACtiIAAlAH4FVMGxSfP5F5-zYE.jpg" alt="小怡" class="avatar" id="herAvatar">
-        <div class="name">小怡</div>
-      </div>
-
-      <div class="tagline" id="tagline">Merry Christmas · 第?天 ❤️</div>
-      
-      <!-- 每日情话 -->
-      <div class="love-quote" id="loveQuote"></div>
-    </div>
-
-    <div class="right-side">
-      <h1 class="neon-text" id="title">圣诞纪念日 · 今天是我们的第?天</h1>
-      <div class="timer-container" id="timer"></div>
-
-      <div class="buttons">
-        <button class="btn" data-section="message">💌 留言板</button>
-        <button class="btn" data-section="photos">📸 Love Photo</button>
-        <button class="btn" data-section="wishes">✨ 心愿列表</button>
-        <button class="btn" data-section="drawingBoard">🎨 绘画板</button>
-        <button class="btn" data-section="game">🎁 接礼物</button>
-      </div>
-
-      <!-- 留言板 -->
-      <div id="message" class="section active">
-        <div style="display:flex;gap:10px;margin-bottom:12px;">
-          <select id="messageFrom" style="flex:1;padding:10px;border:1px solid rgba(255,255,255,0.3);border-radius:10px;background:rgba(20,20,30,0.7);color:white;">
-            <option value="小覃">我 (小覃)</option>
-            <option value="小怡">她 (小怡)</option>
-          </select>
-        </div>
-        <textarea id="newMessage" placeholder="写下你的圣诞祝福..."></textarea>
-        <button onclick="addMessage()" class="btn">发送</button>
-        <div id="messages"></div>
-      </div>
-
-      <!-- 照片墙 -->
-      <div id="photos" class="section photo-wall">
-        <!-- 为每个图片添加data-index属性以便识别 -->
-        <div class="photo-item" data-index="0"><img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlBFpPFbPQUMYPGYjDh_HVT4CGWIfpQACoyIAAlAH4FWA7epzRJtGXTYE.jpg" alt="纪念照片1"></div>
-        <div class="photo-item" data-index="1"><img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlBdpPFbUIsaADuJTdR_tvWLwQW4l-QACqSIAAlAH4FXrBhhQC00wmDYE.jpg" alt="纪念照片2"></div>
-        <div class="photo-item" data-index="2"><img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlBZpPFbU-sm5nKa71lIEe6Vr6lR8PQACqCIAAlAH4FWfI_KH8K9rajYE.jpg" alt="纪念照片3"></div>
-        <div class="photo-item" data-index="3"><img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlBhpPFbUGIboL-SbL3Zwr6jjq4Gm6gACqiIAAlAH4FXSVsePs5szfTYE.jpg" alt="纪念照片4"></div>
-        <div class="photo-item" data-index="4"><img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlBJpPFbP9IOir8qPSPmhRtHkG2vXZgACpCIAAlAH4FX39KSd9CGovDYE.jpg" alt="纪念照片5"></div>
-        <div class="photo-item" data-index="5"><img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlBNpPFbQ6BRnWcfljG0S517C8wJQuwACpSIAAlAH4FVo6Y-lz4aEDDYE.jpg" alt="纪念照片6"></div>
-        <div class="photo-item" data-index="6"><img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlBVpPFbQx0tqYhr0kAyG2jYncn_RNgACpyIAAlAH4FX65PkFlRTUvzYE.jpg" alt="纪念照片7"></div>
-        <div class="photo-item" data-index="7"><img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEMlBVpPFbQx0tqYhr0kAyG2jYncn_RNgACpyIAAlAH4FX65PkFlRTUvzYE.jpg" alt="纪念照片8"></div>
-      </div>
-
-      <!-- 心愿列表 -->
-      <div id="wishes" class="section">
-        <div class="wish-input" style="display:flex;gap:10px;margin-bottom:15px;">
-          <input type="text" id="newWish" placeholder="比如：一起看极光...">
-          <button onclick="addWish()" class="btn">添加</button>
-        </div>
-        <div id="wishList"></div>
-      </div>
-
-      <!-- 绘画板 -->
-      <div id="drawingBoard" class="section">
-        <div class="color-palette" id="colorPalette">
-          <!-- 颜色由 JS 生成 -->
-        </div>
-        <canvas id="paintCanvas" width="500" height="350"></canvas>
-        <button onclick="clearCanvas()" class="btn">清除画布</button>
-      </div>
-
-      <!-- 接礼物小游戏 -->
-      <div id="game" class="section">
-        <p style="text-align:center;color:#ffd700;">用 ← → 方向键或下方按钮控制篮子，接住圣诞礼物！</p>
-        <div id="gameArea">
-          <div class="basket">🧺</div>
-        </div>
-        <div style="text-align:center;margin-top:10px;">
-          得分: <span id="score">0</span>
-        </div>
-        <!-- 新增：游戏控制按钮 -->
-        <div class="game-controls">
-          <button class="control-btn left-btn" id="moveLeft">←</button>
-          <button class="control-btn right-btn" id="moveRight">→</button>
-        </div>
-      </div>
-
-      <footer>© 2025 小覃 & 小怡 | 圣诞快乐，友谊永存一辈子 🎄❤️</footer>
-    </div>
-  </div>
-
-  <audio id="bgMusic" preload="none"></audio>
-  <audio id="wishSound" src="data:audio/mpeg;base64,SUQzBAAAAAABEVRYWFgAAAAtAAADY29tbWVudABCaWdTb3VuZEJhbmsuY29tIC8gTGFTb25vdGhlcXVlLm9yZwBURU5DAAAAHQAAA1N3aXRjaCBQbHVzIMKpIE5DSCBTb2Z0d2FyZQBUSVQyAAAABgAAAzIyMzUAVFNTRQAAAA8AAANMyXZmNTcuODMuMTAwAAAAAAAAAAAAAAD/80DEAAAAA0gAAAAATEFNRTMuMTAwVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQsRbAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/zQMSkAAADSAAAAABVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV" preload="auto"></audio>
-
-  <script>
-    // ========== 浮屏雪花效果 ==========
-    const floatSnowCanvas = document.getElementById('floatSnowCanvas');
-    const floatSnowCtx = floatSnowCanvas.getContext('2d');
-    let floatSnowflakes = [];
-    const floatSnowflakeCount = 50; // 减少雪花数量以提升性能
-
-    function initFloatSnow() {
-      floatSnowCanvas.width = window.innerWidth;
-      floatSnowCanvas.height = window.innerHeight;
-      floatSnowflakes = [];
-      for (let i = 0; i < floatSnowflakeCount; i++) {
-        floatSnowflakes.push({
-          x: Math.random() * floatSnowCanvas.width,
-          y: Math.random() * floatSnowCanvas.height,
-          radius: Math.random() * 2 + 1,
-          speed: Math.random() * 0.5 + 0.2, // 更慢的速度
-          drift: Math.random() * 0.2 - 0.1,
-          opacity: Math.random() * 0.4 + 0.3
-        });
-      }
-    }
-
-    function animateFloatSnow() {
-      floatSnowCtx.clearRect(0, 0, floatSnowCanvas.width, floatSnowCanvas.height);
-      floatSnowflakes.forEach(flake => {
-        flake.y += flake.speed;
-        flake.x += flake.drift;
-        if (flake.y > floatSnowCanvas.height) flake.y = -10;
-        if (flake.x > floatSnowCanvas.width) flake.x = 0;
-        if (flake.x < 0) flake.x = floatSnowCanvas.width;
-        floatSnowCtx.beginPath();
-        floatSnowCtx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2);
-        floatSnowCtx.fillStyle = `rgba(255, 255, 255, ${flake.opacity})`;
-        floatSnowCtx.fill();
-      });
-      requestAnimationFrame(animateFloatSnow);
-    }
-
-    // ========== 情话库 ==========
-    const loveQuotes = [
-      "遇见你，是我今生最美的意外。",
-      "输了没关系，跟你一起玩就很有意思，下次再打回来！",
-      "和你在一起的每一秒，都值得珍藏。",
-      "圣诞老人问我愿望是什么，我说：只要小怡开心。",
-      "今天也辛苦啦，盖好被子，不许踢被子哦。晚安",
-      "你笑起来的样子，比圣诞树上的星星还亮。",
-      "未来的每一天，都想和你一起过。",
-      "忙了一天早点休息吧，晚安，梦里见",
-      "友谊最好的状态大概就是：我懂你的奇奇怪怪，你陪我可可爱爱。",
-      "天气变凉了，记得多穿件衣服，别感冒啦。",
-      "不管遇到什么事，记得你还有我这个网友可以随时聊天。",
-      "今天也要元气满满呀！有什么开心的事都可以随时分享给我。",
-      "感觉你一直在努力变好，真的很棒！",
-      "谢谢你愿意听我分享那些零零碎碎的小事，有你这个朋友真好。"
-    ];
-
-    function showRandomQuote() {
-      const quote = loveQuotes[Math.floor(Math.random() * loveQuotes.length)];
-      document.getElementById('loveQuote').textContent = quote;
-    }
-
-    // ========== 动态纪念日 ==========
-    function updateDaysTogether() {
-      const startDate = new Date("November 9, 2025").getTime();
-      const now = new Date().getTime();
-      let diffTime = now - startDate;
-
-      if (diffTime < 0) {
-        document.getElementById('tagline').textContent = `Merry Christmas · 还未开始 ❤️`;
-        document.getElementById('title').textContent = `圣诞纪念日 · 尚未开始`;
-        return;
-      }
-
-      let daysTogether = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      document.getElementById('tagline').textContent = `Merry Christmas · 第${daysTogether}天 ❤️`;
-      document.getElementById('title').textContent = `圣诞纪念日 · 我们的第${daysTogether}天`;
-    }
-
-    // ========== 爱心粒子（点击任意地方）==========
-    const heartCanvas = document.getElementById('heartCanvas');
-    const heartCtx = heartCanvas.getContext('2d');
-    let hearts = [];
-
-    function initHeartCanvas() {
-      heartCanvas.width = window.innerWidth;
-      heartCanvas.height = window.innerHeight;
-    }
-
-    function createHeart(x, y) {
-      for (let i = 0; i < 3; i++) { // 减少爱心数量
-        hearts.push({
-          x, y,
-          vx: (Math.random() - 0.5) * 3,
-          vy: -Math.random() * 2 - 1,
-          size: Math.random() * 8 + 6,
-          life: 1,
-          decay: 0.03
-        });
-      }
-    }
-
-    function animateHearts() {
-      heartCtx.clearRect(0, 0, heartCanvas.width, heartCanvas.height);
-      for (let i = hearts.length - 1; i >= 0; i--) {
-        const h = hearts[i];
-        h.x += h.vx;
-        h.y += h.vy;
-        h.vy += 0.08;
-        h.life -= h.decay;
-        if (h.life <= 0) {
-          hearts.splice(i, 1);
-          continue;
-        }
-        heartCtx.globalAlpha = h.life;
-        heartCtx.font = `${h.size}px Arial`;
-        heartCtx.fillText('❤️', h.x, h.y);
-      }
-      heartCtx.globalAlpha = 1;
-      if (hearts.length > 0) requestAnimationFrame(animateHearts);
-    }
-
-    document.body.addEventListener('click', (e) => {
-      if (!e.target.closest('.container')) {
-        createHeart(e.clientX, e.clientY);
-        if (hearts.length === 3) animateHearts();
-      }
-    });
-
-    // ========== 彩带（保留原逻辑，略作优化）==========
-    const confettiCanvas = document.getElementById('confettiCanvas');
-    const confettiCtx = confettiCanvas.getContext('2d');
-    let particles = [];
-
-    function initConfetti() {
-      confettiCanvas.width = window.innerWidth;
-      confettiCanvas.height = window.innerHeight;
-    }
-
-    function createConfetti(x, y) {
-      if (particles.length > 80) return; // 减少最大粒子数
-      const colors = ['#ff6b6b', '#ffd700', '#4ecdc4', '#ffbe0b', '#ff9ff3'];
-      for (let i = 0; i < 10; i++) { // 减少每次创建的粒子数
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 150 + 100;
-        particles.push({
-          x, y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          radius: Math.random() * 4 + 2,
-          color: colors[Math.floor(Math.random() * colors.length)],
-          life: 1.0,
-          decay: Math.random() * 0.03 + 0.02
-        });
-      }
-    }
-
-    function animateConfetti() {
-      confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.x += p.vx * 0.016;
-        p.y += p.vy * 0.016;
-        p.vy += 200 * 0.016; // 降低重力
-        p.life -= p.decay;
-        if (p.life <= 0) {
-          particles.splice(i, 1);
-          continue;
-        }
-        confettiCtx.globalAlpha = p.life;
-        confettiCtx.fillStyle = p.color;
-        confettiCtx.beginPath();
-        confettiCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        confettiCtx.fill();
-      }
-      confettiCtx.globalAlpha = 1;
-      if (particles.length > 0) requestAnimationFrame(animateConfetti);
-    }
-
-    document.querySelectorAll('.avatar').forEach(avatar => {
-      avatar.addEventListener('click', (e) => {
-        createConfetti(e.clientX, e.clientY);
-        if (particles.length <= 10) animateConfetti();
-      });
-    });
-
-    // ========== 音乐 ==========
-    const bgMusic = document.getElementById('bgMusic');
-    const musicBtn = document.getElementById('musicBtn');
-    let isPlaying = false;
-    const MUSIC_URL = "http://music.163.com/song/media/outer/url?id=2122667644.mp3";
-
-    musicBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        bgMusic.pause();
-        musicBtn.textContent = '🔇';
-        isPlaying = false;
-      } else {
-        if (!bgMusic.src) bgMusic.src = MUSIC_URL;
-        bgMusic.play().then(() => {
-          musicBtn.textContent = '🎵';
-          isPlaying = true;
-        }).catch(() => alert('请点击页面任意位置启用音频'));
-      }
-    });
-
-    // ========== 倒计时 ==========
-    function initTimer() {
-      const endDate = new Date("Dec 25, 2025 00:00:00").getTime();
-      const units = ['天', '时', '分', '秒'];
-      const container = document.getElementById('timer');
-      container.innerHTML = '';
-      for (let i = 0; i < 4; i++) {
-        const unit = document.createElement('div');
-        unit.className = 'flip-unit';
-        unit.innerHTML = `<div class="flip-digit" id="digit-${i}">--</div><div class="flip-label">${units[i]}</div>`;
-        container.appendChild(unit);
-      }
-      function update() {
-        const now = new Date().getTime();
-        let diff = (endDate - now) / 1000;
-        if (diff <= 0) {
-          document.querySelectorAll('.flip-digit').forEach(el => el.textContent = '00');
-          return;
-        }
-        const days = Math.floor(diff / 86400);
-        diff %= 86400;
-        const hours = Math.floor(diff / 3600);
-        diff %= 3600;
-        const minutes = Math.floor(diff / 60);
-        const seconds = Math.floor(diff % 60);
-        [days, hours, minutes, seconds].forEach((val, i) => {
-          document.getElementById(`digit-${i}`).textContent = String(val).padStart(2, '0');
-        });
-      }
-      update();
-      setInterval(update, 1000);
-    }
-
-    // ========== 面板切换 ==========
-    document.querySelectorAll('.btn[data-section]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.getElementById(btn.dataset.section).classList.add('active');
-      });
-    });
-
-    // ========== 留言 & 心愿 ==========
-    function addMessage() {
-      const text = document.getElementById('newMessage').value.trim();
-      const from = document.getElementById('messageFrom').value;
-      if (!text) return;
-      const msgs = JSON.parse(localStorage.getItem('loveMessages') || '[]');
-      msgs.push({ text, from, time: new Date().toLocaleString('zh-CN') });
-      localStorage.setItem('loveMessages', JSON.stringify(msgs));
-      renderMessages();
-      document.getElementById('newMessage').value = '';
-    }
-
-    function renderMessages() {
-      const el = document.getElementById('messages');
-      const msgs = JSON.parse(localStorage.getItem('loveMessages') || '[]');
-      el.innerHTML = msgs.map(m => 
-        `<div style="background:rgba(40,45,60,0.8);padding:14px 18px;border-left:5px solid ${m.from==='小覃'?'#ff6b6b':'#4ecdc4'};margin-top:14px;border-radius:0 12px 12px 0;">
-          <strong>${m.from}：</strong>${m.text}<br>
-          <span style="font-size:0.85em;color:#aaa;">${m.time}</span>
-        </div>`
-      ).join('');
-    }
-
-    // ========== 心愿列表 ==========
-    function addWish() {
-      const text = document.getElementById('newWish').value.trim();
-      if (!text) return;
-      const wishes = JSON.parse(localStorage.getItem('loveWishes') || '[]');
-      wishes.push({ text, done: false });
-      localStorage.setItem('loveWishes', JSON.stringify(wishes));
-      renderWishes();
-      document.getElementById('newWish').value = '';
-      // 播放音效
-      document.getElementById('wishSound').currentTime = 0;
-      document.getElementById('wishSound').play().catch(() => {});
-    }
-
-    function renderWishes() {
-      const el = document.getElementById('wishList');
-      const wishes = JSON.parse(localStorage.getItem('loveWishes') || '[]');
-      el.innerHTML = wishes.map((w, i) => `
-        <div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(30,35,50,0.8);margin-bottom:10px;border-radius:12px;">
-          <input type="checkbox" ${w.done ? 'checked' : ''} onchange="toggleWish(${i})" style="transform:scale(1.2);">
-          <span style="flex:1;${w.done ? 'text-decoration:line-through;color:#888;' : ''}">${w.text}</span>
-          <button onclick="removeWish(${i})" style="background:none;border:none;color:#ff6b6b;cursor:pointer;">✖</button>
-        </div>
-      `).join('');
-    }
-
-    function toggleWish(index) {
-      const wishes = JSON.parse(localStorage.getItem('loveWishes') || '[]');
-      wishes[index].done = !wishes[index].done;
-      localStorage.setItem('loveWishes', JSON.stringify(wishes));
-      renderWishes();
-    }
-
-    function removeWish(index) {
-      const wishes = JSON.parse(localStorage.getItem('loveWishes') || '[]');
-      wishes.splice(index, 1);
-      localStorage.setItem('loveWishes', JSON.stringify(wishes));
-      renderWishes();
-    }
-
-    // ========== 绘画板修复 ==========
-    const paintCanvas = document.getElementById('paintCanvas');
-    const paintCtx = paintCanvas.getContext('2d');
-    let painting = false;
-    let currentColor = '#ff6b6b';
-    const colors = ['#ff6b6b', '#ffd700', '#4ecdc4', '#ff9ff3', '#1dd1a1', '#54a0ff', '#f368e0', '#ffffff'];
-
-    function initDrawingBoard() {
-      // 确保画布有正确的大小
-      const container = paintCanvas.parentElement;
-      const containerWidth = container.clientWidth;
-      paintCanvas.width = containerWidth - 48; // 减去padding
-      paintCanvas.height = 350;
-      
-      // 初始化画布背景
-      paintCtx.fillStyle = 'rgba(15, 20, 30, 0.95)';
-      paintCtx.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
-      
-      // 创建颜色选择器
-      const palette = document.getElementById('colorPalette');
-      palette.innerHTML = '';
-      colors.forEach(color => {
-        const dot = document.createElement('div');
-        dot.className = 'color-dot';
-        dot.style.backgroundColor = color;
-        if (color === currentColor) dot.classList.add('active');
-        dot.addEventListener('click', () => {
-          document.querySelectorAll('.color-dot').forEach(d => d.classList.remove('active'));
-          dot.classList.add('active');
-          currentColor = color;
-        });
-        palette.appendChild(dot);
-      });
-
-      // 修复绘画事件
-      function getMousePos(canvas, evt) {
-        const rect = canvas.getBoundingClientRect();
-        return {
-          x: evt.clientX - rect.left,
-          y: evt.clientY - rect.top
+    <script>
+        // 完整题库数据 - 包含所有您提供的题目和解析
+        const questionBank = {
+            "解剖学": [
+                {
+                    id: 1,
+                    question: "在前臂两点中，靠近腕关节的一点为",
+                    options: ["内侧", "外侧", "近端", "远端", "内"],
+                    correctAnswer: "D",
+                    userAnswer: "C",
+                    isCorrect: false,
+                    explanation: "解剖学方位术语中，靠近肢体附着点（肩关节）为近端，远离肢体附着点（腕关节）为远端。前臂两点中，靠近腕关节的一点为远端。"
+                },
+                {
+                    id: 2,
+                    question: "病人接受X光检查，拍胸部正位片时得到的图像是",
+                    options: ["矢状面", "冠状面", "水平面", "斜面", "正中矢状面"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "胸部正位片（后前位）显示的是冠状面图像，即将人体分为前后两部分的平面。冠状面与矢状面垂直。"
+                },
+                {
+                    id: 3,
+                    question: "在躯体两点中，近正中矢状面的一点为",
+                    options: ["内侧", "外侧", "内", "外", "近侧"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "在描述躯体两点位置时，靠近正中矢状面（将人体分为左右两半的平面）的一点称为内侧，远离正中矢状面的一点称为外侧。"
+                },
+                {
+                    id: 4,
+                    question: "前后走向的轴称为",
+                    options: ["冠状轴", "垂直轴", "矢状轴", "长轴", "短轴"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "解剖学中，前后走向的轴称为矢状轴，左右走向的轴称为冠状轴，上下走向的轴称为垂直轴。三轴互相垂直。"
+                },
+                {
+                    id: 5,
+                    question: "关于人体解剖学标准姿势描述错误的是",
+                    options: ["身体直立", "两眼平视前方", "上肢自然下垂", "掌心贴于大腿两侧", "下肢并拢，足尖向前"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "人体解剖学标准姿势中，身体直立，两眼平视前方，上肢自然下垂，掌心向前（不是贴于大腿两侧），下肢并拢，足尖向前。"
+                },
+                {
+                    id: 6,
+                    question: "以下关于轴和切面的术语描述错误的是",
+                    options: ["人体三轴互相垂直", "矢状面、水平面和冠状面互相垂直", "矢状面将人体分为左、右两半", "纵切面与横切面互相垂直", "横切面即水平面"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "横切面与水平面是不同概念。横切面是相对于器官长轴而言，水平面是相对于标准姿势而言，二者并不等同。"
+                },
+                {
+                    id: 7,
+                    question: "眼位于鼻的",
+                    options: ["下内侧", "上方", "上外侧", "外侧", "上内侧"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "眼位于鼻的外侧和上方，即上外侧。这是人体面部器官相对位置的基本知识。"
+                },
+                {
+                    id: 8,
+                    question: "人体解剖学的学习重点是",
+                    options: ["正常功能", "正常形态", "病理形态", "异常功能", "异常位置"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "人体解剖学主要研究正常人体形态结构，学习重点是正常形态。功能研究属于生理学范畴。"
+                },
+                {
+                    id: 9,
+                    question: "现代解剖学之父是",
+                    options: ["维萨里 Vesalius", "希波克拉底 Hippocrates", "达尔文 Darwin", "盖伦 Galen", "达芬奇 Davinci"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "安德烈亚斯·维萨里（Andreas Vesalius）被认为是现代解剖学之父，著有《人体构造》，奠定了现代解剖学基础。"
+                },
+                {
+                    id: 10,
+                    question: "肺位于人体哪个部位",
+                    options: ["颈部", "胸部", "腹部", "盆部", "下肢"],
+                    correctAnswer: "B",
+                    userAnswer: "C",
+                    isCorrect: false,
+                    explanation: "肺位于人体胸腔内，左右各一，分居于纵隔两侧。您误选为腹部，请注意肺的解剖位置在胸部，腹部主要是消化器官。"
+                },
+                {
+                    id: 11,
+                    question: "下列骨中，属于长骨的是",
+                    options: ["肩胛骨", "肋骨", "胸骨", "肱骨", "椎骨"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "长骨呈长管状，分为一体两端，如肱骨、股骨等。肩胛骨是扁骨，肋骨、胸骨、椎骨是不规则骨。"
+                },
+                {
+                    id: 12,
+                    question: "成对的脑颅骨是",
+                    options: ["顶骨", "额骨", "枕骨", "下颌骨", "上颌骨"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "脑颅骨中，顶骨和颞骨是成对的，额骨、枕骨、蝶骨、筛骨是不成对的。下颌骨属于面颅骨。"
+                },
+                {
+                    id: 13,
+                    question: "臂与前臂之间的关节是",
+                    options: ["髋关节", "肩关节", "肘关节", "膝关节", "腕关节"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "肘关节连接臂（肱骨）和前臂（尺骨和桡骨），是上肢重要的屈伸关节。"
+                },
+                {
+                    id: 14,
+                    question: "下列哪个是关节的基本结构",
+                    options: ["关节盘", "关节囊", "关节唇", "韧带", "滑膜囊"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "关节的基本结构包括关节面、关节囊和关节腔。关节盘、关节唇、韧带、滑膜囊是关节的辅助结构。"
+                },
+                {
+                    id: 15,
+                    question: "属于躯干肌的是",
+                    options: ["胸锁乳突肌", "三角肌", "斜方肌", "肱二头肌", "臀大肌"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "斜方肌位于项部和背部，属于躯干肌。胸锁乳突肌是颈肌，三角肌和肱二头肌是上肢肌，臀大肌是下肢肌。"
+                },
+                {
+                    id: 16,
+                    question: "下列哪个心腔的血液会射向主动脉",
+                    options: ["右心房", "右心室", "左心房", "左心室", "右半心"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "左心室收缩时将含氧丰富的动脉血射入主动脉，供应全身组织器官。右心室将血液射向肺动脉。"
+                },
+                {
+                    id: 17,
+                    question: "心的正常起搏点是",
+                    options: ["窦房结", "房室结", "房室束", "冠状窦", "左、右束支"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "窦房结是心的正常起搏点，位于右心房上腔静脉入口处，自律性最高，主导心脏的节律性活动。"
+                },
+                {
+                    id: 18,
+                    question: "不能在体表摸到搏动的动脉是",
+                    options: ["面动脉", "桡动脉", "髂外动脉", "颈总动脉", "足背动脉"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "髂外动脉位置较深，不能在体表摸到搏动。面动脉、桡动脉、颈总动脉、足背动脉都可在相应体表位置摸到搏动。"
+                },
+                {
+                    id: 19,
+                    question: "位于颈部的浅静脉是",
+                    options: ["颈内静脉", "颈外静脉", "锁骨下静脉", "头臂静脉", "头静脉"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "颈外静脉是颈部最大的浅静脉，沿胸锁乳突肌表面下行。颈内静脉、锁骨下静脉、头臂静脉是深静脉。"
+                },
+                {
+                    id: 20,
+                    question: "淋巴器官不包括",
+                    options: ["淋巴结", "胸腺", "脾", "腮腺", "扁桃体"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "淋巴器官包括中枢淋巴器官（胸腺、骨髓）和外周淋巴器官（淋巴结、脾、扁桃体等）。腮腺是消化腺，属于唾液腺。"
+                },
+                {
+                    id: 21,
+                    question: "不属于上消化道的是",
+                    options: ["口", "咽", "喉", "食管", "胃"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "上消化道包括口腔、咽、食管、胃和十二指肠。喉属于呼吸道，不属于消化道。"
+                },
+                {
+                    id: 22,
+                    question: "肝大部分位于",
+                    options: ["左季肋区", "右季肋区", "左季肋区和腹上区", "脐区", "右季肋区和腹上区"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "肝大部分位于右季肋区和腹上区，小部分延伸至左季肋区。肝上界与膈穹窿一致，下界与右肋弓基本一致。"
+                },
+                {
+                    id: 23,
+                    question: "胃分部中不包括",
+                    options: ["胃顶", "胃底", "胃体", "贲门部", "幽门部"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "胃分为四部分：贲门部、胃底、胃体和幽门部。胃顶不是胃的解剖学分区。"
+                },
+                {
+                    id: 24,
+                    question: "鼻旁窦不包括",
+                    options: ["上颌窦", "额窦", "筛窦", "乳突窦", "蝶窦"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "鼻旁窦包括上颌窦、额窦、筛窦和蝶窦四对。乳突窦属于中耳结构，不是鼻旁窦。"
+                },
+                {
+                    id: 25,
+                    question: "不属于泌尿系统的器官的是",
+                    options: ["肾", "肾上腺", "输尿管", "膀胱", "尿道"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "泌尿系统包括肾、输尿管、膀胱和尿道。肾上腺是内分泌器官，位于肾的上方，但不属于泌尿系统。"
+                },
+                {
+                    id: 26,
+                    question: "女性尿道后方毗邻的器官是",
+                    options: ["直肠", "子宫", "膀胱底", "阴道", "肛管"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "女性尿道短而直，长约3-5cm，后方紧贴阴道前壁，前方邻接耻骨联合。"
+                },
+                {
+                    id: 27,
+                    question: "男性生殖腺是",
+                    options: ["阴囊", "附睾", "睾丸", "前列腺", "精囊"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "睾丸是男性生殖腺，具有产生精子和分泌雄激素的功能。阴囊是容纳睾丸的囊袋，附睾、前列腺、精囊是附属腺体。"
+                },
+                {
+                    id: 28,
+                    question: "男性生殖管道不包括",
+                    options: ["附睾", "输精管", "尿道", "前列腺", "射精管"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "男性生殖管道包括附睾、输精管、射精管和尿道。前列腺是附属腺体，不是生殖管道。"
+                },
+                {
+                    id: 29,
+                    question: "卵子受精通常在",
+                    options: ["输卵管子宫部", "输卵管峡", "输卵管壶腹部", "输卵管伞", "输卵管漏斗"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "卵子受精通常在输卵管壶腹部进行，此处管腔较宽，是精子和卵子相遇并结合的常见部位。"
+                },
+                {
+                    id: 30,
+                    question: "子宫肿瘤的好发部位是",
+                    options: ["子宫底", "子宫颈", "子宫峡", "子宫体", "子宫腔"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "子宫颈是子宫肿瘤的好发部位，特别是子宫颈癌。子宫颈鳞状上皮与柱状上皮交界处是宫颈癌的好发部位。"
+                },
+                {
+                    id: 31,
+                    question: "构成眼球的屈光装置的结构为",
+                    options: ["晶状体", "角膜、晶状体", "角膜、房水、晶状体、睫状体", "角膜、房水、晶状体、玻璃体", "角膜、房水、晶状体、玻璃体、视网膜"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "眼球的屈光装置包括角膜、房水、晶状体和玻璃体。这些结构具有屈光作用，使光线聚焦在视网膜上。"
+                },
+                {
+                    id: 32,
+                    question: "下列不属于眼副器的是",
+                    options: ["结膜", "泪腺", "巩膜", "眼外肌", "眶脂体"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "眼副器包括眼睑、结膜、泪器、眼球外肌和眶脂体等。巩膜是眼球壁的外膜，属于眼球本身结构。"
+                },
+                {
+                    id: 33,
+                    question: "听觉感受器是",
+                    options: ["椭圆囊斑", "Corti器", "球囊斑", "壶腹嵴", "前庭阶"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "Corti器（螺旋器）是内耳听觉感受器，位于耳蜗的基底膜上。椭圆囊斑、球囊斑和壶腹嵴是平衡感受器。"
+                },
+                {
+                    id: 34,
+                    question: "成人脊髓下端平齐",
+                    options: ["第十二胸椎体下缘", "第二腰椎体下缘", "第一腰椎体下缘", "第三腰椎体下缘", "第四腰椎体下"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "成人脊髓下端平齐第一腰椎体下缘。新生儿脊髓下端平齐第三腰椎体下缘。"
+                },
+                {
+                    id: 35,
+                    question: "从脑干背面出脑的神经是",
+                    options: ["动眼神经", "三叉神经", "舌下神经", "滑车神经", "展神经"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "滑车神经是唯一从脑干背面出脑的脑神经，在中脑下丘下方出脑。其他脑神经均从脑干腹侧面或侧面出脑。"
+                },
+                {
+                    id: 36,
+                    question: "不属于间脑的结构是",
+                    options: ["后丘脑", "底丘脑", "上丘脑", "下丘脑", "上丘"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "间脑分为背侧丘脑、后丘脑、上丘脑、底丘脑和下丘脑五部分。上丘属于中脑结构。"
+                },
+                {
+                    id: 37,
+                    question: "内分泌器官不包括",
+                    options: ["松果体", "下颌下腺", "甲状旁腺", "肾上腺", "甲状腺"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "内分泌器官包括垂体、甲状腺、甲状旁腺、肾上腺、松果体等。下颌下腺是消化腺，属于外分泌腺。"
+                },
+                {
+                    id: 38,
+                    question: "听觉区位于",
+                    options: ["纹状区", "中央前回", "角回", "颞横回", "额上回后部"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "听觉区位于颞横回和颞上回，接受来自内侧膝状体的听辐射纤维，是听觉的高级中枢。"
+                },
+                {
+                    id: 39,
+                    question: "下列神经中与三叉神经痛有关的是",
+                    options: ["Ⅱ", "Ⅴ", "Ⅷ", "Ⅸ", "Ⅻ"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "三叉神经是第Ⅴ对脑神经，分为眼神经、上颌神经和下颌神经三支。三叉神经痛是面部阵发性剧烈疼痛。"
+                },
+                {
+                    id: 40,
+                    question: "全身最粗大的神经为",
+                    options: ["坐骨神经", "股神经", "腋神经", "闭孔神经", "尺神经"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "坐骨神经是全身最粗大的神经，直径可达2cm，由腰骶干和所有骶神经前支组成，支配下肢大部分肌肉。"
+                }
+            ],
+            "组织学": [
+                {
+                    id: 1,
+                    question: "致密结缔组织的特点不包括",
+                    options: ["以纤维为主要成分的组织", "胶原纤维粗大", "细胞和基质较少", "构成血细胞发育、生长的微环境", "具有支持、连接和保护作用"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "致密结缔组织以纤维为主要成分，细胞和基质较少，具有支持、连接和保护作用。构成血细胞发育微环境的是造血组织。"
+                },
+                {
+                    id: 2,
+                    question: "骨骼肌纤维的肌膜向胞质内凹陷形成",
+                    options: ["肌浆网", "三联体", "纵小管", "横小管", "终池"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "骨骼肌纤维的肌膜向胞质内凹陷形成横小管（T小管），其功能是将肌膜的兴奋传入细胞内。"
+                },
+                {
+                    id: 3,
+                    question: "神经元特有的细胞器是",
+                    options: ["尼氏体和线粒体", "尼氏体和高尔基复合体", "尼氏体和神经元纤维", "尼氏体", "尼氏体和中心体"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "神经元特有的细胞器是尼氏体和神经元纤维（神经原纤维）。尼氏体由粗面内质网和游离核糖体组成，神经元纤维由神经丝和微管组成。"
+                },
+                {
+                    id: 4,
+                    question: "肌节是",
+                    options: ["相邻两条Z线之间的一段肌原纤维", "相邻两条Z线之间的一段纤维", "由粗肌丝构成", "由细肌丝", "由横纹构成"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "肌节是相邻两条Z线之间的一段肌原纤维，是骨骼肌收缩的基本结构和功能单位。"
+                },
+                {
+                    id: 5,
+                    question: "闰盘存在于下列哪种组织",
+                    options: ["骨骼肌组织", "平滑肌组织", "心肌组织", "结缔组织", "神经组织"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "闰盘是心肌纤维连接处的特化结构，由相邻心肌纤维的肌膜构成，包括桥粒、中间连接和缝隙连接。"
+                },
+                {
+                    id: 6,
+                    question: "神经元之间传递的结构是",
+                    options: ["有髓神经纤维", "无髓神经纤维", "运动神经末梢", "感觉神经末梢", "突触"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "突触是神经元之间或神经元与效应细胞之间传递信息的特化结构，包括化学突触和电突触两类。"
+                },
+                {
+                    id: 7,
+                    question: "各段肾小管对葡萄糖全部重吸收的部位是",
+                    options: ["集合管", "髓袢降支", "髓袢升支", "远曲小管", "近端小管"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "近端小管是重吸收的主要部位，葡萄糖、氨基酸、蛋白质、维生素等全部在近端小管重吸收。"
+                },
+                {
+                    id: 8,
+                    question: "血液中数量最多的血细胞是",
+                    options: ["单核细胞", "中性粒细胞", "红细胞", "嗜酸粒细胞", "血小板"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "红细胞是血液中数量最多的血细胞，正常成人男性为(4.0-5.5)×10¹²/L，女性为(3.5-5.0)×10¹²/L。"
+                },
+                {
+                    id: 9,
+                    question: "变移上皮分布于",
+                    options: ["食管", "气管", "结肠", "空肠", "膀胱"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "变移上皮（移行上皮）分布于肾盂、肾盏、输尿管和膀胱等泌尿管道，其细胞层数和形态随器官功能状态而变化。"
+                },
+                {
+                    id: 10,
+                    question: "内皮衬贴于",
+                    options: ["气管", "血管", "肾小管", "食管", "膀胱"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "内皮是衬贴在心、血管和淋巴管腔面的单层扁平上皮，表面光滑，有利于血液和淋巴液流动。"
+                },
+                {
+                    id: 11,
+                    question: "纤毛的内部有",
+                    options: ["微管", "微丝", "张力丝", "中间丝", "角蛋白丝"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "纤毛内部有9×2+2排列的微管结构，称为轴丝。微管由微管蛋白组成，与纤毛的摆动有关。"
+                },
+                {
+                    id: 12,
+                    question: "腺是",
+                    options: ["有大量分泌细胞的上皮", "以腺上皮为主要成分的器官", "以腺细胞为主要成分的腺上皮", "以分泌功能为主的上皮", "由分泌部和导管组成"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "腺是以腺上皮为主要成分的器官。腺上皮是由腺细胞组成的以分泌功能为主的上皮。"
+                },
+                {
+                    id: 13,
+                    question: "狭义的结缔组织是指",
+                    options: ["致密结缔组织", "疏松结缔组织", "网状组织", "固有结缔组织", "脂肪组织"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "狭义的结缔组织指固有结缔组织，包括疏松结缔组织、致密结缔组织、脂肪组织和网状组织。"
+                },
+                {
+                    id: 14,
+                    question: "成纤维细胞转变为纤维细胞表示其",
+                    options: ["功能旺盛", "准备分裂增殖", "进入衰老状态", "功能静止", "即将死亡"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "成纤维细胞功能活跃，合成纤维和基质；纤维细胞是成纤维细胞的功能静止状态，细胞变小，细胞器减少。"
+                },
+                {
+                    id: 15,
+                    question: "具有趋化性的细胞是",
+                    options: ["浆细胞", "肥大细胞", "巨噬细胞", "成纤维细胞", "脂肪细胞"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "巨噬细胞具有趋化性，能向炎症部位或抗原物质定向移动，执行吞噬和免疫应答功能。"
+                },
+                {
+                    id: 16,
+                    question: "具有吞噬功能的细胞是",
+                    options: ["肥大细胞和中性粒细胞", "浆细胞和肥大细胞", "巨噬细胞和浆细胞", "成纤维细胞和巨噬细胞", "中性粒细胞和巨噬细胞"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "中性粒细胞和巨噬细胞都具有强大的吞噬功能。中性粒细胞主要吞噬细菌，巨噬细胞吞噬范围更广。"
+                },
+                {
+                    id: 17,
+                    question: "疏松结缔组织中最常见的细胞是",
+                    options: ["成纤维细胞", "肥大细胞", "浆细胞", "脂肪细胞", "巨噬细胞"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "成纤维细胞是疏松结缔组织中最常见的细胞，能合成纤维和基质，参与组织修复。"
+                },
+                {
+                    id: 18,
+                    question: "三种软骨在结构上的主要区别是",
+                    options: ["软骨细胞类型", "无定形基质成分", "软骨的物理特性", "纤维类型", "软骨的染色特性"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "透明软骨含胶原纤维，弹性软骨含弹性纤维，纤维软骨含大量胶原纤维束，三种软骨的主要区别在于纤维类型不同。"
+                },
+                {
+                    id: 19,
+                    question: "骨质的结构呈",
+                    options: ["均质状", "团块状", "板层状", "条索状", "网络状"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "骨质由骨板构成，呈板层状排列，称为骨板。骨板内或骨板间有骨陷窝，内含骨细胞。"
+                },
+                {
+                    id: 20,
+                    question: "弹性软骨见于",
+                    options: ["外耳", "关节", "椎间盘", "气管", "肋"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "弹性软骨见于耳廓、外耳道、咽鼓管和会厌等，因其含大量弹性纤维而富有弹性。"
+                }
+            ],
+            "生理学": [
+                {
+                    id: 1,
+                    question: "人体生理学主要研究",
+                    options: ["人体与环境间相互作用规律", "人体正常功能活动及其规律", "人体内物理运动规律", "人体内化学反应规律", "人体物质组成及结构"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "生理学是研究生物体正常生命活动规律的科学，人体生理学主要研究人体正常功能活动及其规律。"
+                },
+                {
+                    id: 2,
+                    question: "内环境稳态最重要的意义在于",
+                    options: ["保证足够的能量供应", "使营养物质不致于过度消耗", "为保证机体正常生命活动提供必要条件", "与环境变化保持一致", "将内部功能活动固定在一个水平"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "内环境稳态是细胞正常生命活动的必要条件，其最重要的意义在于为保证机体正常生命活动提供必要条件。"
+                },
+                {
+                    id: 3,
+                    question: "生理学中的体温是指人体的",
+                    options: ["表层温度", "直肠温度", "腋窝温度", "口腔温度", "深部平均温度"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "生理学中的体温是指人体深部（核心部位）的平均温度。直肠温度最接近深部温度，口腔和腋窝温度稍低。"
+                },
+                {
+                    id: 4,
+                    question: "AB型血的红细胞膜上含有",
+                    options: ["A抗原", "B抗原", "H抗原", "A和B抗原", "A、B、H抗原均无"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "ABO血型系统中，AB型血的红细胞膜上含有A抗原和B抗原，血清中不含抗A和抗B抗体。"
+                },
+                {
+                    id: 5,
+                    question: "关于血浆晶体渗透压的叙述，不正确的是",
+                    options: ["维持血管内外的水平衡和正常血容量", "保持细胞内外水平衡", "维持细胞正常形态和功能", "由血浆中小分子晶体物质形成", "主要与血浆中的NaCl有关"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "血浆晶体渗透压主要维持细胞内外水平衡，血浆胶体渗透压主要维持血管内外水平衡和正常血容量。"
+                },
+                {
+                    id: 6,
+                    question: "我国健康青年人安静时的收缩压为",
+                    options: ["30~40 mmHg", "40~60 mmHg", "60~80 mmHg", "100~120 mmHg", "100 mmHg"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "我国健康青年人安静时的收缩压为100~120 mmHg，舒张压为60~80 mmHg，脉压为30~40 mmHg。"
+                },
+                {
+                    id: 7,
+                    question: "调节呼吸运动最重要的化学因素是",
+                    options: ["H+", "O2", "CO2", "乳酸", "腺苷"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "CO2是调节呼吸运动最重要的化学因素，对呼吸的刺激作用主要通过中枢化学感受器实现。"
+                },
+                {
+                    id: 8,
+                    question: "胰液中的消化酶不包括",
+                    options: ["胰脂肪酶", "胰蛋白酶", "胰淀粉酶", "糜蛋白酶", "肠激酶"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "胰液中的消化酶包括胰淀粉酶、胰脂肪酶、胰蛋白酶、糜蛋白酶等。肠激酶是肠液中的酶，能激活胰蛋白酶原。"
+                },
+                {
+                    id: 9,
+                    question: "可出现蛋白尿的是",
+                    options: ["肾小管和集合管的分泌增加", "滤过面积增大", "滤过膜通透性增大", "血浆蛋白含量增加", "肾小球毛细血管血压升高"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "滤过膜通透性增大时，血浆蛋白滤过量超过肾小管重吸收能力，可出现蛋白尿。见于肾小球肾炎等疾病。"
+                },
+                {
+                    id: 10,
+                    question: "人体最重要的排泄器官是",
+                    options: ["皮肤", "消化道", "肺", "肾", "汗腺"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "肾是人体最重要的排泄器官，通过尿生成排出代谢废物、多余水分和电解质，维持水、电解质和酸碱平衡。"
+                }
+            ],
+            "生物化学": [
+                {
+                    id: 1,
+                    question: "蛋白质经煮沸变性后其生物学活性",
+                    options: ["升高", "不变", "丧失", "降低", "先降低后升高"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "蛋白质变性是指蛋白质空间构象破坏，导致其生物学活性丧失，煮沸是常用的变性方法。变性不涉及一级结构改变。"
+                },
+                {
+                    id: 2,
+                    question: "无活性的酶原在一定条件下能转变成有活性的酶，这一过程称为",
+                    options: ["变性", "同工酶", "复性", "辅酶激活", "酶原激活"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "酶原激活是指无活性的酶原在一定条件下水解掉一个或几个肽段，形成有活性的酶。如胰蛋白酶原激活为胰蛋白酶。"
+                },
+                {
+                    id: 3,
+                    question: "组成核酸的基本单位是",
+                    options: ["戊糖和碱基", "单核苷酸", "核糖和脱氧核糖", "磷酸和戊糖", "磷酸、戊糖和碱基"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "核酸的基本组成单位是单核苷酸。单核苷酸由磷酸、戊糖和碱基组成。多个核苷酸通过磷酸二酯键连接形成核酸。"
+                },
+                {
+                    id: 4,
+                    question: "ATP生成的主要方式是",
+                    options: ["底物水平磷酸化", "氧化磷酸化", "糖的磷酸化", "肌酸磷酸化", "高能化合物之间的转化"],
+                    correctAnswer: "B",
+                    userAnswer: "A",
+                    isCorrect: false,
+                    explanation: "ATP生成的主要方式是氧化磷酸化，占人体ATP生成总量的80%以上。底物水平磷酸化是次要方式。您误选为底物水平磷酸化，请注意区分。"
+                },
+                {
+                    id: 5,
+                    question: "三羧酸循环的发生部位是",
+                    options: ["细胞核", "细胞浆", "细胞膜", "线粒体", "核糖体"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "三羧酸循环在线粒体基质中进行，是糖、脂肪、蛋白质三大营养素彻底氧化的共同途径。"
+                },
+                {
+                    id: 6,
+                    question: "糖的有氧氧化终产物是",
+                    options: ["尿素", "乳酸", "酮体", "二氧化碳和水", "丙酮酸"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "糖的有氧氧化终产物是二氧化碳和水，并释放大量能量（ATP）。无氧酵解终产物是乳酸。"
+                },
+                {
+                    id: 7,
+                    question: "以下不属于血脂的是",
+                    options: ["三酰甘油", "磷脂", "磷酸", "游离脂酸", "胆固醇及其酯"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "血脂是血浆中脂类物质的总称，包括三酰甘油、磷脂、胆固醇及其酯、游离脂酸等。磷酸是无机盐，不属于血脂。"
+                },
+                {
+                    id: 8,
+                    question: "以下关于基因的概念，描述正确的是",
+                    options: ["DNA分子中含有特定遗传信息的一段核苷酸序列", "DNA有规则的单螺旋形式存在", "指的是RNA分子", "指的是蛋白质", "不是遗传物质的最小功能单位"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "基因是DNA分子中含有特定遗传信息的一段核苷酸序列，是遗传物质的最小功能单位，决定蛋白质或多肽链的合成。"
+                },
+                {
+                    id: 9,
+                    question: "蛋白质变性是由于",
+                    options: ["氢键被破坏", "肽键断裂", "蛋白质降解", "水化层被破坏及电荷被中和", "亚基的解聚"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "蛋白质变性主要是由于维持空间结构的非共价键（氢键、疏水键、离子键等）被破坏，导致空间构象改变，生物学活性丧失。"
+                },
+                {
+                    id: 10,
+                    question: "DNA碱基配对主要靠",
+                    options: ["范德华力", "氢键", "疏水作用", "盐键", "共价键"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "DNA双链中碱基配对主要依靠氢键。A与T配对形成2个氢键，G与C配对形成3个氢键。碱基堆积力维持双螺旋结构稳定。"
+                }
+            ],
+            "微生物": [
+                {
+                    id: 1,
+                    question: "下列哪类微生物属原细胞型微生物",
+                    options: ["放线菌", "病毒", "酵母", "霉菌", "朊粒"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "原核细胞型微生物包括细菌、放线菌、支原体、衣原体、立克次体和螺旋体。病毒和朊粒是非细胞型微生物，酵母和霉菌是真核细胞型微生物。"
+                },
+                {
+                    id: 2,
+                    question: "细菌属于原核细胞性微生物的主要依据是",
+                    options: ["二分裂方式繁殖", "仅有原始核结构，无核膜和有丝分裂", "对抗生素敏感", "对抗生素不敏感"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "原核细胞与真核细胞的主要区别是核的结构。原核细胞仅有原始核结构，无核膜和核仁，也无有丝分裂。"
+                },
+                {
+                    id: 3,
+                    question: "下列微生物中，属于非细胞型微生物的是",
+                    options: ["立克次体", "真菌", "衣原体", "病毒", "螺旋体"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "非细胞型微生物包括病毒、亚病毒（类病毒、拟病毒、朊粒）。立克次体、衣原体、螺旋体是原核细胞型微生物，真菌是真核细胞型微生物。"
+                },
+                {
+                    id: 4,
+                    question: "细胞核的分化程度高，有核膜和核仁;胞质内细胞器完整的微生物是",
+                    options: ["立克次体", "真菌", "衣原体", "病毒", "螺旋体"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "真菌属于真核细胞型微生物，细胞核分化程度高，有核膜和核仁，胞质内细胞器完整。"
+                },
+                {
+                    id: 5,
+                    question: "第一次用显微镜观察到各种形态的微生物的伟人是",
+                    options: ["吕文虎克", "巴斯德", "柯霍", "伊凡诺夫斯基", "弗莱明"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "荷兰人列文虎克（Leeuwenhoek）于1676年用自制的显微镜第一次观察到了细菌等微生物，被称为微生物学的先驱。"
+                },
+                {
+                    id: 6,
+                    question: "细菌经革兰染色后，如果为阳性，其着色应是",
+                    options: ["红色", "淡蓝色", "深红色", "蓝紫色", "棕褐色"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "革兰阳性菌细胞壁肽聚糖层厚，经结晶紫初染、碘液媒染后，被乙醇脱色困难，再经复红复染仍呈蓝紫色。"
+                },
+                {
+                    id: 7,
+                    question: "与细菌侵袭力无关的物质是",
+                    options: ["荚膜", "菌毛", "芽胞", "血浆凝固酶", "透明质酸酶"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "芽胞是细菌的休眠形式，与细菌的抵抗力有关，与侵袭力无关。荚膜、菌毛、血浆凝固酶、透明质酸酶都与细菌侵袭力有关。"
+                },
+                {
+                    id: 8,
+                    question: "霍乱弧菌的主要传播途径是",
+                    options: ["呼吸道", "消化道", "皮肤粘膜", "眼结膜", "以上都是"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "霍乱弧菌主要通过粪-口途径传播，即消化道传播。污染的水源和食物是主要传播媒介。"
+                },
+                {
+                    id: 9,
+                    question: "能导致感染者出现'波浪热'的病原菌是",
+                    options: ["鼠疫耶氏菌", "布鲁菌", "梅毒螺旋体", "破伤风梭菌", "炭疽杆菌"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "布鲁菌感染可引起波浪热，表现为反复发作的发热和退热，发热期持续数日至数周，间隔数日或数周无热期后又发热。"
+                },
+                {
+                    id: 10,
+                    question: "病毒的遗传物质是",
+                    options: ["DNA或RNA", "RNA", "DNA", "DNA和RNA", "以上都不对"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "病毒的遗传物质是DNA或RNA，一种病毒只含有一种核酸（DNA或RNA）。这与细胞型生物不同，细胞型生物同时含有DNA和RNA。"
+                },
+                {
+                    id: 11,
+                    question: "多细胞真菌的结构包括",
+                    options: ["菌丝和孢子", "菌丝和芽胞", "孢子和荚膜", "菌毛和孢子", "孢子和芽胞"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "多细胞真菌（霉菌）的基本结构是菌丝和孢子。菌丝构成菌体，孢子是真菌的繁殖结构。芽胞是细菌的结构。"
+                },
+                {
+                    id: 12,
+                    question: "艾滋病的病原体是",
+                    options: ["人类T细胞白血病病毒", "人类乳头瘤病毒", "人类免疫缺陷病毒", "泡沫病毒", "缺陷型病毒"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "艾滋病（AIDS）的病原体是人类免疫缺陷病毒（HIV），主要侵犯CD4+ T淋巴细胞，导致免疫功能缺陷。"
+                },
+                {
+                    id: 13,
+                    question: "下列病毒中，能引起潜伏感染的是",
+                    options: ["脊髓灰质炎病毒", "狂犬病毒", "单纯疱疹病毒", "流行性感冒病毒", "甲型肝炎病毒"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "单纯疱疹病毒可引起潜伏感染，病毒潜伏于神经节中，当机体免疫力下降时，病毒被激活引起复发感染。"
+                },
+                {
+                    id: 14,
+                    question: "汉坦病毒通过哪种动物传播",
+                    options: ["黑线姬鼠", "三节吻库蚊", "蜱", "猴", "犬"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "汉坦病毒引起肾综合征出血热，主要宿主和传染源是鼠类，特别是黑线姬鼠。通过鼠类排泄物污染的尘埃或食物传播。"
+                },
+                {
+                    id: 15,
+                    question: "测量病毒体大小的单位是",
+                    options: ["厘米", "毫米", "微米", "纳米", "纳克"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "病毒体非常微小，测量单位是纳米（nm）。大多数病毒直径在20-300nm之间，需用电子显微镜观察。"
+                },
+                {
+                    id: 16,
+                    question: "关于病毒的感染类型，下述哪项是错误的",
+                    options: ["水平感染", "隐性感染", "慢性感染", "慢发感染", "急性感染"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "水平感染是指个体之间的传播，不是病毒感染的病理类型。病毒感染类型包括隐性感染、显性感染（急性感染、持续性感染如慢性感染、慢发感染、潜伏感染）。"
+                }
+            ],
+            "寄生虫学": [
+                {
+                    id: 1,
+                    question: "寄生虫成虫阶段所寄生的宿主是",
+                    options: ["终宿主", "中间宿主", "保虫宿主", "转续宿主"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "寄生虫成虫或有性生殖阶段所寄生的宿主称为终宿主。中间宿主是寄生虫幼虫或无性生殖阶段寄生的宿主。"
+                },
+                {
+                    id: 2,
+                    question: "寄生虫对宿主的损害表现在",
+                    options: ["掠夺营养", "机械性损伤", "毒性与免疫损伤", "以上都是"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "寄生虫对宿主的损害包括：掠夺营养、机械性损伤（压迫、堵塞、破坏组织）、毒性与免疫损伤（毒性代谢产物、免疫病理反应）。"
+                },
+                {
+                    id: 3,
+                    question: "溶组织内阿米巴的致病阶段是",
+                    options: ["单核包囊", "双核包囊", "四核包囊", "滋养体"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "溶组织内阿米巴的滋养体是致病阶段，能侵袭肠黏膜引起阿米巴痢疾，也可侵入肝、肺等引起肠外阿米巴病。包囊是感染阶段。"
+                },
+                {
+                    id: 4,
+                    question: "阴道毛滴虫的生活史只有",
+                    options: ["包囊", "滋养体", "卵囊", "裂殖子"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "阴道毛滴虫生活史简单，仅有滋养体阶段，以二分裂法繁殖。滋养体既是繁殖阶段，也是感染和致病阶段。"
+                },
+                {
+                    id: 5,
+                    question: "疟疾的传播媒介是",
+                    options: ["白蛉", "家蝇", "按蚊", "蜚蠊"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "疟疾由疟原虫引起，传播媒介是按蚊。雌性按蚊叮咬疟疾病人时，将疟原虫吸入体内，发育繁殖后再叮咬健康人时传播。"
+                },
+                {
+                    id: 6,
+                    question: "疟疾的典型临床表现为",
+                    options: ["寒战", "高热", "出汗退热", "以上都是"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "疟疾典型临床表现为周期性发作的寒战、高热、出汗退热三个阶段。发作周期与疟原虫在红细胞内的裂体增殖周期一致。"
+                },
+                {
+                    id: 7,
+                    question: "华支睾吸虫寄生在宿主的部位是",
+                    options: ["肝胆管", "肝脏", "小肠", "胃"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "华支睾吸虫（肝吸虫）成虫寄生在人、猫、犬等终宿主的肝胆管内，引起华支睾吸虫病（肝吸虫病）。"
+                },
+                {
+                    id: 8,
+                    question: "囊虫病的感染阶段是",
+                    options: ["囊尾蚴", "虫卵", "成虫", "以上都是"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "囊虫病是猪带绦虫的幼虫（囊尾蚴）寄生于人体引起的疾病。感染阶段是虫卵，人食入虫卵后，在肠道内孵化出六钩蚴，移行至各组织发育为囊尾蚴。"
+                },
+                {
+                    id: 9,
+                    question: "似蚓蛔线虫的感染阶段是",
+                    options: ["受精蛔虫卵", "未受精蛔虫卵", "感染期蛔虫卵", "以上都是"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "似蚓蛔线虫（蛔虫）的感染阶段是感染期虫卵（含蚴卵）。虫卵在外界适宜条件下发育为感染期虫卵，被人误食后感染。"
+                },
+                {
+                    id: 10,
+                    question: "不需要中间宿主的寄生虫是",
+                    options: ["华支睾吸虫", "朱带绦虫", "似蚓蛔线虫", "疟原虫"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "似蚓蛔线虫生活史简单，不需要中间宿主。华支睾吸虫需要淡水螺和鱼作为中间宿主，绦虫需要中间宿主，疟原虫需要按蚊作为中间宿主。"
+                }
+            ],
+            "免疫学": [
+                {
+                    id: 1,
+                    question: "现代免疫的概念是机体对' '与'异己'识别、应答过程中所产生的生物学效应的总和。",
+                    options: ["自身", "非己", "异物", "抗原", "抗体"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "现代免疫概念是机体识别'自身'与'异己'抗原，对自身抗原形成天然免疫耐受，对异己抗原产生排斥作用的一种生理功能。"
+                },
+                {
+                    id: 2,
+                    question: "抗原是能刺激机体免疫系统产生特异性免疫应答、并能与相应的应答产物在体内或体外发生 结合的物质。",
+                    options: ["非特异性", "特异性", "异物", "抗原", "抗体"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "抗原具有两个基本特性：免疫原性（刺激免疫系统产生应答）和免疫反应性（与相应应答产物发生特异性结合）。"
+                },
+                {
+                    id: 3,
+                    question: "哪里是免疫发生、分化和成熟的场所",
+                    options: ["中枢免疫器官", "周围免疫器官", "淋巴结", "脾脏", "黏膜"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "中枢免疫器官是免疫细胞发生、分化、发育和成熟的场所，包括骨髓和胸腺。周围免疫器官是免疫细胞定居和发生免疫应答的场所。"
+                },
+                {
+                    id: 4,
+                    question: "胸腺是什么细胞发育分化的器官",
+                    options: ["NK细胞", "B细胞", "T细胞", "巨噬细胞", "DC细胞"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "胸腺是T细胞分化、发育和成熟的主要器官。骨髓是B细胞分化发育的场所，也是各类免疫细胞的发源地。"
+                },
+                {
+                    id: 5,
+                    question: "MHC分子参与加工与提呈抗原，参与什么细胞的限制性识别。",
+                    options: ["B细胞", "肥大细胞", "抗原呈递细胞", "T细胞", "NK细胞"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "MHC分子参与抗原加工与提呈，T细胞通过TCR识别抗原肽-MHC分子复合物，这一过程受MHC限制。"
+                },
+                {
+                    id: 6,
+                    question: "BCR是哪种细胞的表面标志",
+                    options: ["B细胞", "T细胞", "NK细胞", "DC细胞", "巨噬细胞"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "BCR（B细胞受体）是B细胞表面的特征性标志，能特异性识别抗原，是B细胞活化的重要信号。"
+                },
+                {
+                    id: 7,
+                    question: "在针对TD-Ag的特异性识别过程中，B细胞只有在得到活化的 辅助后，才能完成对TD-Ag的识别而活化",
+                    options: ["B细胞", "Th细胞", "NK细胞", "DC细胞", "巨噬细胞"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "TD-Ag（胸腺依赖性抗原）需要Th细胞辅助才能激活B细胞。Th细胞通过细胞间接触和分泌细胞因子辅助B细胞活化、增殖和分化。"
+                },
+                {
+                    id: 8,
+                    question: "新生儿溶血症属于 型超敏反应",
+                    options: ["I", "II", "III", "IV", "V"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "新生儿溶血症属于II型超敏反应（细胞毒型），由母体抗Rh抗体通过胎盘进入胎儿体内，与胎儿Rh+红细胞结合，激活补体导致红细胞溶解。"
+                },
+                {
+                    id: 9,
+                    question: "接种疫苗等抗原物质，刺激机体产生特异性免疫应答，这种获得免疫力的方式称为",
+                    options: ["预防接种", "天然免疫", "人工被动免疫", "获得性免疫", "免疫耐受"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "预防接种（人工主动免疫）是接种疫苗等抗原物质，刺激机体产生特异性免疫应答，从而获得免疫力。这种免疫力产生慢但维持时间长。"
+                },
+                {
+                    id: 10,
+                    question: "输入抗体制剂，被动获得特异性免疫力的方式称为",
+                    options: ["预防接种", "天然免疫", "人工被动免疫", "获得性免疫", "人工主动免疫"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "人工被动免疫是输入抗体制剂（如抗毒素、免疫球蛋白），使机体立即获得特异性免疫力。这种免疫力产生快但维持时间短。"
+                }
+            ],
+            "病理生理学": [
+                {
+                    id: 1,
+                    question: "病理生理学的主要任务是研究",
+                    options: ["致病因素的种类及作用方式", "疾病时机体的代偿方式其调节", "疾病时细胞的形态结构变化", "疾病的发生发展和转归的规律", "疾病的症状和体征"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "病理生理学主要研究疾病发生、发展、转归的规律和机制，着重从功能代谢角度探讨疾病本质。形态结构变化是病理学的研究内容。"
+                },
+                {
+                    id: 2,
+                    question: "下述哪一种物质属于发热激活物",
+                    options: ["白细胞介素-1", "干扰素", "肿瘤坏死因子", "巨噬细胞炎症蛋白-1", "抗原抗体复合物"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "发热激活物是指能激活产内生致热原细胞产生和释放内生致热原的物质，包括外致热原（如细菌、病毒）和某些体内产物（如抗原抗体复合物、类固醇）。"
+                },
+                {
+                    id: 3,
+                    question: "脱水热的发生原因是",
+                    options: ["体温调节中枢调定点上移", "体温调节中枢严重受损", "产热增加，散热减少", "产热增加", "散热减少"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "脱水热是由于严重脱水导致皮肤蒸发散热减少，同时循环血量减少使皮肤血流量减少，散热障碍引起体温升高。"
+                },
+                {
+                    id: 4,
+                    question: "反映肺通气功能的最好指标是",
+                    options: ["潮气量", "PaO2", "PaCO2", "PAO2", "PaCO2和PACO2的差值"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "PaCO2（动脉血二氧化碳分压）是反映肺通气功能的最好指标。PaCO2升高表示肺泡通气不足，PaCO2降低表示肺泡通气过度。"
+                },
+                {
+                    id: 5,
+                    question: "造成阻塞性通气不足的原因是",
+                    options: ["呼吸肌活动障碍", "气道阻力增加", "肺顺应性降低", "胸廓顺应性降低", "弥散障碍"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "阻塞性通气不足是由于气道狭窄或阻塞导致气道阻力增加引起的通气障碍。常见于慢性支气管炎、支气管哮喘等。"
+                },
+                {
+                    id: 6,
+                    question: "肾衰时常引起以下哪种酸碱平衡紊乱",
+                    options: ["代谢性酸中毒", "呼吸性酸中毒", "代谢性碱中毒", "呼吸性碱中毒", "代谢性碱中毒合并呼吸性碱中毒"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "肾衰竭时，肾小球滤过率降低，酸性代谢产物（磷酸、硫酸等）排出减少，同时肾小管泌H+和重吸收HCO3-障碍，常引起代谢性酸中毒。"
+                },
+                {
+                    id: 7,
+                    question: "右心衰竭引起全身性水肿的最重要的机制是",
+                    options: ["肾小球滤过率下降", "肾小管重吸收钠增加", "毛细血管内压增高", "血浆胶体渗透压降低", "淋巴回流障碍"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "右心衰竭时，静脉回流受阻，毛细血管流体静压增高，组织液生成大于回流，导致全身性水肿。"
+                },
+                {
+                    id: 8,
+                    question: "高热患者易发生",
+                    options: ["低容量性高钠血症（高渗性脱水）", "低容量性低钠血症（低渗性脱水）", "等容量性低钠血症", "等容量性高钠血症", "等渗性脱水"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "高热患者经皮肤和呼吸道丢失大量低渗性水分，失水多于失钠，易发生低容量性高钠血症（高渗性脱水）。"
+                },
+                {
+                    id: 9,
+                    question: "最易发生缺血再灌注损伤的器官是",
+                    options: ["肝", "肺", "肾", "心", "胃肠道"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "心脏是最易发生缺血再灌注损伤的器官，因为心肌代谢活跃，对缺血缺氧敏感，再灌注时易产生大量氧自由基，导致心肌损伤。"
+                },
+                {
+                    id: 10,
+                    question: "急性肾功能不全发病的中心环节是",
+                    options: ["肾小管原尿反流", "肾小管阻塞", "肾毛细血管内凝血", "GFR降低", "肾小管上皮细胞坏死"],
+                    correctAnswer: "D",
+                    userAnswer: "D",
+                    isCorrect: true,
+                    explanation: "急性肾功能不全发病的中心环节是肾小球滤过率（GFR）急剧降低。各种病因通过不同机制最终导致GFR降低，引起少尿、氮质血症等。"
+                }
+            ],
+            "病理学": [
+                {
+                    id: 1,
+                    question: "下列哪项不宜作为脑死亡的标准",
+                    options: ["心跳停止", "自主呼吸消失", "脑电波消失", "大脑功能完全停止", "脑干功能停止"],
+                    correctAnswer: "A",
+                    userAnswer: "A",
+                    isCorrect: true,
+                    explanation: "脑死亡是指全脑功能不可逆的丧失，但心跳可能通过人工维持。心跳停止是临床死亡标志，不是脑死亡标准。脑死亡标准包括：不可逆昏迷、自主呼吸停止、脑干反射消失、脑电波消失等。"
+                },
+                {
+                    id: 2,
+                    question: "下述哪项不符合完全康复的标准",
+                    options: ["受损结构得到修复", "疾病时发生的损伤性变化完全消失", "功能代谢恢复正常", "重新处于稳态", "遗留一定的病理状态"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "完全康复是指疾病所致的损伤完全消失，机体功能、代谢、形态完全恢复正常。遗留病理状态属于不完全康复。"
+                },
+                {
+                    id: 3,
+                    question: "由一种分化成熟的组织转变为另一种分化成熟组织的现象，称为",
+                    options: ["代偿", "适应", "增生", "肥大", "化生"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "化生是指一种分化成熟的组织转化为另一种分化成熟组织的过程。常见于上皮组织和结缔组织，如支气管鳞状上皮化生。"
+                },
+                {
+                    id: 4,
+                    question: "细胞坏死后合并腐败菌感染，称为",
+                    options: ["凝固性坏死", "液化性坏死", "坏疽", "溃疡", "空洞"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "坏疽是指较大范围的组织坏死合并腐败菌感染，使坏死组织呈黑褐色等特殊形态改变。分为干性坏疽、湿性坏疽和气性坏疽。"
+                },
+                {
+                    id: 5,
+                    question: "炎症局部组织的基本病理变化是",
+                    options: ["变性、坏死", "增生、肿胀", "变质、渗出、增生", "极化、黏连", "炎细胞浸润"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "炎症的基本病理变化包括变质（组织细胞变性、坏死）、渗出（液体和细胞成分渗出）、增生（实质细胞和间质细胞增生）。"
+                },
+                {
+                    id: 6,
+                    question: "肿瘤细胞分化程度越高表明",
+                    options: ["异型性越大", "与起源组织相似", "肿瘤细胞增殖越快", "核分裂相多", "恶性程度高"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "肿瘤细胞分化程度越高，其形态和功能越接近起源的正常组织，异型性越小，恶性程度越低。反之，分化程度越低，异型性越大，恶性程度越高。"
+                },
+                {
+                    id: 7,
+                    question: "诊断恶性肿瘤的组织学依据是",
+                    options: ["细胞质丰富", "细胞核增多", "细胞异型性显著", "核仁明显", "黏液分泌增多"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "细胞异型性显著是诊断恶性肿瘤的重要组织学依据。异型性表现为细胞大小不一、形态不规则、核大深染、核分裂象增多等。"
+                },
+                {
+                    id: 8,
+                    question: "下列哪种疾病是以变质为主的炎症",
+                    options: ["大叶性肺炎", "肾小球肾炎", "肝炎", "脑膜炎", "胸膜炎"],
+                    correctAnswer: "C",
+                    userAnswer: "C",
+                    isCorrect: true,
+                    explanation: "肝炎是以肝细胞变性、坏死等变质性改变为主的炎症。大叶性肺炎以渗出为主，肾小球肾炎以增生为主。"
+                },
+                {
+                    id: 9,
+                    question: "以下不属于糖尿病肾脏病变的是",
+                    options: ["结节性肾小球硬化", "弥漫性肾小球硬化", "间质损害", "肾乳头坏死", "肾脏体积变小"],
+                    correctAnswer: "E",
+                    userAnswer: "E",
+                    isCorrect: true,
+                    explanation: "糖尿病肾脏病变包括结节性肾小球硬化（Kimmelstiel-Wilson结节）、弥漫性肾小球硬化、肾小管-间质损害、肾血管病变和肾乳头坏死等。糖尿病肾病早期肾脏体积常增大。"
+                },
+                {
+                    id: 10,
+                    question: "原发性肝癌起源于",
+                    options: ["肝细胞和库普弗细胞", "肝细胞和肝内胆管上皮", "肝血窦内皮和淋巴细胞", "肝细胞和胆管上皮", "胆管上皮和储脂细胞"],
+                    correctAnswer: "B",
+                    userAnswer: "B",
+                    isCorrect: true,
+                    explanation: "原发性肝癌起源于肝细胞或肝内胆管上皮细胞。肝细胞肝癌最常见，占90%以上；胆管细胞肝癌较少见。"
+                }
+            ]
         };
-      }
 
-      function startPaint(e) {
-        painting = true;
-        const pos = getMousePos(paintCanvas, e);
-        paintCtx.beginPath();
-        paintCtx.moveTo(pos.x, pos.y);
-        paint(e);
-      }
+        // 应用状态
+        const appState = {
+            currentChapter: "解剖学",
+            currentQuestionIndex: 0,
+            questions: [],
+            userAnswers: {},
+            showCorrection: false,
+            isSubmitted: false
+        };
 
-      function paint(e) {
-        if (!painting) return;
-        
-        const pos = getMousePos(paintCanvas, e);
-        
-        paintCtx.lineWidth = 3;
-        paintCtx.lineCap = 'round';
-        paintCtx.lineJoin = 'round';
-        paintCtx.strokeStyle = currentColor;
-        
-        paintCtx.lineTo(pos.x, pos.y);
-        paintCtx.stroke();
-        paintCtx.beginPath();
-        paintCtx.moveTo(pos.x, pos.y);
-      }
+        // DOM元素
+        const elements = {
+            questionCategory: document.getElementById('question-category'),
+            questionText: document.getElementById('question-text'),
+            optionsContainer: document.getElementById('options-container'),
+            correctionSection: document.getElementById('correction-section'),
+            userAnswer: document.getElementById('user-answer'),
+            correctAnswer: document.getElementById('correct-answer'),
+            explanationText: document.getElementById('explanation-text'),
+            totalQuestions: document.getElementById('total-questions'),
+            correctQuestions: document.getElementById('correct-questions'),
+            accuracyRate: document.getElementById('accuracy-rate'),
+            currentQuestion: document.getElementById('current-question'),
+            currentQNum: document.getElementById('current-q-num'),
+            totalQNum: document.getElementById('total-q-num'),
+            progressFill: document.getElementById('progress-fill'),
+            answeredCount: document.getElementById('answered-count'),
+            remainingCount: document.getElementById('remaining-count'),
+            weaknessList: document.getElementById('weakness-list'),
+            chapterList: document.getElementById('chapter-list'),
+            prevBtn: document.getElementById('prev-btn'),
+            submitBtn: document.getElementById('submit-btn'),
+            nextBtn: document.getElementById('next-btn'),
+            restartBtn: document.getElementById('restart-btn')
+        };
 
-      function stopPaint() {
-        painting = false;
-        paintCtx.beginPath();
-      }
-
-      // 绑定事件
-      paintCanvas.addEventListener('mousedown', startPaint);
-      paintCanvas.addEventListener('mouseup', stopPaint);
-      paintCanvas.addEventListener('mousemove', paint);
-      paintCanvas.addEventListener('mouseleave', stopPaint);
-
-      // 触摸事件支持
-      paintCanvas.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const mouseEvent = new MouseEvent('mousedown', {
-          clientX: touch.clientX,
-          clientY: touch.clientY
-        });
-        paintCanvas.dispatchEvent(mouseEvent);
-      });
-
-      paintCanvas.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        const touch = e.touches[0];
-        const mouseEvent = new MouseEvent('mousemove', {
-          clientX: touch.clientX,
-          clientY: touch.clientY
-        });
-        paintCanvas.dispatchEvent(mouseEvent);
-      });
-
-      paintCanvas.addEventListener('touchend', () => {
-        const mouseEvent = new MouseEvent('mouseup', {});
-        paintCanvas.dispatchEvent(mouseEvent);
-      });
-    }
-
-    function clearCanvas() {
-      paintCtx.fillStyle = 'rgba(15, 20, 30, 0.95)';
-      paintCtx.fillRect(0, 0, paintCanvas.width, paintCanvas.height);
-    }
-
-    // ========== 图片放大预览功能 ==========
-    let currentImageIndex = 0;
-    const imageItems = document.querySelectorAll('.photo-item');
-
-    function initImagePreview() {
-      imageItems.forEach((item, index) => {
-        item.addEventListener('click', () => {
-          currentImageIndex = index;
-          openImageModal();
-        });
-      });
-
-      // 关闭模态框
-      document.getElementById('closeModal').addEventListener('click', closeImageModal);
-      
-      // 点击模态框背景关闭
-      document.getElementById('imageModal').addEventListener('click', (e) => {
-        if (e.target.id === 'imageModal') {
-          closeImageModal();
+        // 初始化应用
+        function initApp() {
+            console.log("初始化医学概论复习系统...");
+            loadQuestions();
+            renderChapterList();
+            renderQuestion();
+            updateStats();
+            setupEventListeners();
+            console.log("系统初始化完成，题库总数：" + Object.keys(questionBank).reduce((sum, chapter) => sum + questionBank[chapter].length, 0) + "题");
         }
-      });
 
-      // 导航按钮
-      document.getElementById('prevBtn').addEventListener('click', showPrevImage);
-      document.getElementById('nextBtn').addEventListener('click', showNextImage);
-
-      // 键盘导航
-      document.addEventListener('keydown', (e) => {
-        if (document.getElementById('imageModal').classList.contains('active')) {
-          if (e.key === 'Escape') closeImageModal();
-          if (e.key === 'ArrowLeft') showPrevImage();
-          if (e.key === 'ArrowRight') showNextImage();
+        // 加载当前章节的题目
+        function loadQuestions() {
+            const chapter = appState.currentChapter;
+            console.log(`加载章节: ${chapter}`);
+            
+            if (!questionBank[chapter] || questionBank[chapter].length === 0) {
+                console.error(`章节 ${chapter} 没有题目数据`);
+                appState.questions = [];
+                return;
+            }
+            
+            // 创建题目副本
+            appState.questions = JSON.parse(JSON.stringify(questionBank[chapter]));
+            appState.currentQuestionIndex = 0;
+            appState.showCorrection = false;
+            appState.isSubmitted = false;
+            
+            // 随机排序题目
+            shuffleArray(appState.questions);
+            
+            // 重置用户答案
+            appState.userAnswers = {};
+            
+            console.log(`已加载 ${appState.questions.length} 道题目`);
         }
-      });
-    }
 
-    function openImageModal() {
-      const modalImage = document.getElementById('modalImage');
-      const clickedImage = imageItems[currentImageIndex].querySelector('img');
-      modalImage.src = clickedImage.src;
-      modalImage.alt = clickedImage.alt;
-      document.getElementById('imageModal').classList.add('active');
-    }
-
-    function closeImageModal() {
-      document.getElementById('imageModal').classList.remove('active');
-    }
-
-    function showPrevImage() {
-      currentImageIndex = (currentImageIndex - 1 + imageItems.length) % imageItems.length;
-      const modalImage = document.getElementById('modalImage');
-      const clickedImage = imageItems[currentImageIndex].querySelector('img');
-      modalImage.src = clickedImage.src;
-      modalImage.alt = clickedImage.alt;
-    }
-
-    function showNextImage() {
-      currentImageIndex = (currentImageIndex + 1) % imageItems.length;
-      const modalImage = document.getElementById('modalImage');
-      const clickedImage = imageItems[currentImageIndex].querySelector('img');
-      modalImage.src = clickedImage.src;
-      modalImage.alt = clickedImage.alt;
-    }
-
-    // ========== 接礼物游戏（添加按钮控制）==========
-    let score = 0;
-    let basketX = 50;
-    let gameRunning = false;
-    let giftInterval;
-
-    function initGame() {
-      const gameArea = document.getElementById('gameArea');
-      gameArea.innerHTML = '<div class="basket">🧺</div>';
-      score = 0;
-      document.getElementById('score').textContent = score;
-      
-      // 键盘控制
-      document.addEventListener('keydown', (e) => {
-        const basket = document.querySelector('.basket');
-        if (!basket) return;
-        
-        if (e.key === 'ArrowLeft' && basketX > 5) {
-          basketX -= 15;
-        } else if (e.key === 'ArrowRight' && basketX < 95) {
-          basketX += 15;
+        // 随机排序数组
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
         }
-        basket.style.left = `${basketX}%`;
-      });
 
-      // 按钮控制
-      const moveLeftBtn = document.getElementById('moveLeft');
-      const moveRightBtn = document.getElementById('moveRight');
-
-      moveLeftBtn.addEventListener('mousedown', () => {
-        moveLeft();
-      });
-
-      moveRightBtn.addEventListener('mousedown', () => {
-        moveRight();
-      });
-
-      // 触摸事件支持
-      moveLeftBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        moveLeft();
-      });
-
-      moveRightBtn.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        moveRight();
-      });
-    }
-
-    function moveLeft() {
-      const basket = document.querySelector('.basket');
-      if (!basket) return;
-      
-      if (basketX > 5) {
-        basketX -= 15;
-        basket.style.left = `${basketX}%`;
-      }
-    }
-
-    function moveRight() {
-      const basket = document.querySelector('.basket');
-      if (!basket) return;
-      
-      if (basketX < 95) {
-        basketX += 15;
-        basket.style.left = `${basketX}%`;
-      }
-    }
-
-    function startGame() {
-      if (gameRunning) return;
-      gameRunning = true;
-      score = 0;
-      document.getElementById('score').textContent = score;
-      
-      giftInterval = setInterval(createGift, 1200); // 降低礼物生成频率
-      
-      // 60秒后停止游戏
-      setTimeout(() => {
-        stopGame();
-        alert(`游戏结束！得分：${score}`);
-      }, 60000);
-    }
-
-    function createGift() {
-      if (!gameRunning) return;
-      
-      const gameArea = document.getElementById('gameArea');
-      const gift = document.createElement('div');
-      gift.className = 'gift';
-      gift.textContent = '🎁';
-      gift.style.left = `${Math.random() * 90 + 5}%`;
-      gift.style.top = '0';
-      gift.style.fontSize = '24px';
-      gift.style.animation = `fall ${Math.random() * 2 + 2}s linear forwards`;
-      
-      gameArea.appendChild(gift);
-      
-      // 碰撞检测
-      const checkCollision = setInterval(() => {
-        const giftRect = gift.getBoundingClientRect();
-        const basketRect = document.querySelector('.basket').getBoundingClientRect();
-        
-        if (giftRect.bottom >= basketRect.top && 
-            giftRect.right >= basketRect.left && 
-            giftRect.left <= basketRect.right) {
-          score++;
-          document.getElementById('score').textContent = score;
-          gift.remove();
-          clearInterval(checkCollision);
+        // 渲染章节列表
+        function renderChapterList() {
+            elements.chapterList.innerHTML = '';
+            
+            Object.keys(questionBank).forEach(chapter => {
+                const li = document.createElement('li');
+                li.textContent = `${chapter} (${questionBank[chapter].length}题)`;
+                li.dataset.chapter = chapter;
+                
+                if (chapter === appState.currentChapter) {
+                    li.classList.add('active');
+                }
+                
+                li.addEventListener('click', () => {
+                    if (chapter !== appState.currentChapter) {
+                        appState.currentChapter = chapter;
+                        loadQuestions();
+                        renderQuestion();
+                        updateStats();
+                        
+                        // 更新活跃章节
+                        document.querySelectorAll('#chapter-list li').forEach(item => {
+                            item.classList.remove('active');
+                        });
+                        li.classList.add('active');
+                    }
+                });
+                
+                elements.chapterList.appendChild(li);
+            });
         }
-        
-        if (giftRect.top > gameArea.offsetHeight) {
-          gift.remove();
-          clearInterval(checkCollision);
+
+        // 渲染当前题目
+        function renderQuestion() {
+            if (appState.questions.length === 0) {
+                elements.questionText.textContent = "该章节暂无题目数据";
+                elements.optionsContainer.innerHTML = "";
+                return;
+            }
+            
+            const question = appState.questions[appState.currentQuestionIndex];
+            if (!question) {
+                elements.questionText.textContent = "题目数据错误";
+                return;
+            }
+            
+            // 更新题目信息
+            elements.questionCategory.textContent = appState.currentChapter;
+            elements.questionText.textContent = question.question;
+            elements.currentQNum.textContent = appState.currentQuestionIndex + 1;
+            elements.totalQNum.textContent = appState.questions.length;
+            
+            // 渲染选项
+            elements.optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionLetter = String.fromCharCode(65 + index); // A, B, C, ...
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.dataset.option = optionLetter;
+                
+                // 如果已提交，显示正确答案
+                if (appState.isSubmitted) {
+                    if (optionLetter === question.correctAnswer) {
+                        optionElement.classList.add('correct');
+                    } else if (optionLetter === appState.userAnswers[question.id]) {
+                        optionElement.classList.add('incorrect');
+                    }
+                }
+                
+                // 如果已选择，标记为选中
+                if (appState.userAnswers[question.id] === optionLetter) {
+                    optionElement.classList.add('selected');
+                }
+                
+                optionElement.innerHTML = `
+                    <span class="option-label">${optionLetter}.</span>
+                    <span class="option-text">${option}</span>
+                `;
+                
+                // 添加点击事件（仅在未提交时有效）
+                if (!appState.isSubmitted) {
+                    optionElement.addEventListener('click', () => selectOption(optionLetter));
+                }
+                
+                elements.optionsContainer.appendChild(optionElement);
+            });
+            
+            // 显示/隐藏错题更正部分
+            if (appState.showCorrection && !question.isCorrect) {
+                elements.correctionSection.style.display = 'block';
+                
+                // 显示用户答案
+                const userAnswerLetter = appState.userAnswers[question.id];
+                const userAnswerIndex = userAnswerLetter ? userAnswerLetter.charCodeAt(0) - 65 : -1;
+                const userAnswerText = userAnswerIndex >= 0 ? 
+                    `${userAnswerLetter}. ${question.options[userAnswerIndex]}` : 
+                    '未作答';
+                elements.userAnswer.textContent = userAnswerText;
+                
+                // 显示正确答案
+                const correctAnswerLetter = question.correctAnswer;
+                const correctAnswerIndex = correctAnswerLetter.charCodeAt(0) - 65;
+                const correctAnswerText = `${correctAnswerLetter}. ${question.options[correctAnswerIndex]}`;
+                elements.correctAnswer.textContent = correctAnswerText;
+                
+                elements.explanationText.textContent = question.explanation;
+            } else {
+                elements.correctionSection.style.display = 'none';
+            }
+            
+            // 更新按钮状态
+            elements.prevBtn.disabled = appState.currentQuestionIndex === 0;
+            elements.nextBtn.disabled = appState.currentQuestionIndex === appState.questions.length - 1;
+            
+            // 更新提交按钮文本
+            elements.submitBtn.textContent = appState.isSubmitted ? '答案已提交' : '提交答案';
+            elements.submitBtn.disabled = appState.isSubmitted || !appState.userAnswers[question.id];
+            
+            // 更新进度条
+            updateProgress();
         }
-      }, 50); // 降低检测频率
-      
-      // 2.5秒后自动移除
-      setTimeout(() => {
-        if (gift.parentNode) {
-          gift.remove();
+
+        // 选择选项
+        function selectOption(optionLetter) {
+            const question = appState.questions[appState.currentQuestionIndex];
+            appState.userAnswers[question.id] = optionLetter;
+            renderQuestion();
         }
-      }, 2500);
-    }
 
-    function stopGame() {
-      gameRunning = false;
-      clearInterval(giftInterval);
-      document.getElementById('gameArea').innerHTML = '<div class="basket">🧺</div>';
-    }
-
-    // === 新增：日期进度条 ===
-    function createDateProgress() {
-      const startDate = new Date('2025-11-09');
-      const endDate = new Date('2025-12-25');
-      const today = new Date();
-      
-      const totalDays = (endDate - startDate) / (1000 * 60 * 60 * 24);
-      const passedDays = (today - startDate) / (1000 * 60 * 60 * 24);
-      
-      let progress = (passedDays / totalDays) * 100;
-      if (progress > 100) progress = 100;
-      if (progress < 0) progress = 0;
-      
-      // 在标题下添加进度条
-      const title = document.querySelector('h1');
-      if (title) {
-        const progressHTML = `
-          <div class="progress-container" style="margin-top: 15px; max-width: 400px; margin-left: auto; margin-right: auto;">
-            <div class="progress-bar" style="width: ${progress}%;"></div>
-          </div>
-          <div style="text-align: center; margin-top: 5px; font-size: 0.9em; color: #ffd700;">
-            距离圣诞还有 ${Math.ceil(totalDays - passedDays)} 天 (${progress.toFixed(1)}%)
-          </div>
-        `;
-        title.insertAdjacentHTML('afterend', progressHTML);
-      }
-    }
-
-    // === 新增：情侣互动按钮 ===
-    function createInteractionButtons() {
-      const leftSide = document.querySelector('.left-side');
-      if (leftSide) {
-        const buttonsHTML = `
-          <div style="display: flex; justify-content: center; gap: 10px; margin-top: 15px;">
-            <button style="padding: 8px 15px; background: rgba(255, 107, 107, 0.8); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; color: white; cursor: pointer;" onclick="sendVirtualHug()">🤗 抱抱</button>
-            <button style="padding: 8px 15px; background: rgba(255, 215, 0, 0.8); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; color: white; cursor: pointer;" onclick="sendVirtualKiss()">😘 大嘴巴子</button>
-          </div>
-        `;
-        const tagline = document.getElementById('tagline');
-        tagline.insertAdjacentHTML('afterend', buttonsHTML);
-      }
-    }
-
-    function sendVirtualHug() {
-      showNotification('🤗 发送了一个温暖的抱抱！');
-      createHeartParticles();   
-    }
-
-    function sendVirtualKiss() {
-      showNotification('😘 发送了一个甜蜜的恶龙咆哮！');
-      // 在两人头像之间创建爱心
-      const yourAvatar = document.getElementById('yourAvatar');
-      const herAvatar = document.getElementById('herAvatar');
-      
-      if (yourAvatar && herAvatar) {
-        const rect1 = yourAvatar.getBoundingClientRect();
-        const rect2 = herAvatar.getBoundingClientRect();
-        
-        const startX = rect1.left + rect1.width / 2;
-        const startY = rect1.top + rect1.height / 2;
-        const endX = rect2.left + rect2.width / 2;
-        const endY = rect2.top + rect2.height / 2;
-        
-        createLoveLine(startX, startY, endX, endY);
-      }
-    }
-
-    function showNotification(text) {
-      const notification = document.createElement('div');
-      notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(255, 107, 107, 0.9);
-        color: white;
-        padding: 12px 24px;
-        border-radius: 25px;
-        z-index: 10000;
-        animation: fadeInOut 3s ease;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-      `;
-      
-      notification.innerHTML = text;
-      document.body.appendChild(notification);
-      
-      setTimeout(() => {
-        notification.remove();
-      }, 3000);
-    }
-
-    function createHeartParticles() {
-      const container = document.querySelector('.container');
-      const rect = container.getBoundingClientRect();
-      
-      for (let i = 0; i < 8; i++) {
-        setTimeout(() => {
-          const x = rect.left + rect.width / 2;
-          const y = rect.top + rect.height / 2;
-          createHeart(x, y);
-          if (hearts.length === 3) animateHearts();
-        }, i * 100);
-      }
-    }
-
-    function createLoveLine(x1, y1, x2, y2) {
-      const line = document.createElement('div');
-      line.style.cssText = `
-        position: fixed;
-        top: ${y1}px;
-        left: ${x1}px;
-        width: 2px;
-        height: 2px;
-        background: linear-gradient(45deg, #ff6b6b, #ffd700);
-        transform-origin: 0 0;
-        z-index: 1000;
-        pointer-events: none;
-      `;
-      
-      const angle = Math.atan2(y2 - y1, x2 - x1);
-      const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-      
-      line.style.transform = `rotate(${angle}rad)`;
-      line.style.width = `${length}px`;
-      
-      document.body.appendChild(line);
-      
-      // 动画
-      line.animate([
-        { opacity: 0, transform: `rotate(${angle}rad) scaleX(0)` },
-        { opacity: 1, transform: `rotate(${angle}rad) scaleX(1)` },
-        { opacity: 0 }
-      ], {
-        duration: 1000,
-        easing: 'ease-out'
-      });
-      
-      setTimeout(() => line.remove(), 1000);
-    }
-
-    // === 新增：日夜模式切换 ===
-    function createThemeToggle() {
-      const musicBtn = document.getElementById('musicBtn');
-      const themeBtn = document.createElement('div');
-      themeBtn.className = 'music-btn';
-      themeBtn.style.right = '90px';
-      themeBtn.innerHTML = '🌙';
-      themeBtn.title = '切换主题';
-      
-      themeBtn.addEventListener('click', () => {
-        document.body.classList.toggle('light-theme');
-        if (document.body.classList.contains('light-theme')) {
-          themeBtn.innerHTML = '☀️';
-        } else {
-          themeBtn.innerHTML = '🌙';
+        // 提交答案
+        function submitAnswer() {
+            const question = appState.questions[appState.currentQuestionIndex];
+            
+            if (!appState.userAnswers[question.id]) {
+                alert('请先选择一个答案！');
+                return;
+            }
+            
+            appState.isSubmitted = true;
+            appState.showCorrection = true;
+            
+            // 记录是否正确
+            question.userAnswer = appState.userAnswers[question.id];
+            question.isCorrect = question.userAnswer === question.correctAnswer;
+            
+            renderQuestion();
+            updateStats();
         }
-      });
-      
-      document.body.appendChild(themeBtn);
-    }
 
-    // ========== 页面初始化 ==========
-    function initPage() {
-      updateDaysTogether();
-      showRandomQuote();
-      setInterval(showRandomQuote, 5000); // 5秒切换一次情话
-      
-      initFloatSnow();
-      animateFloatSnow();
-      
-      initHeartCanvas();
-      initConfetti();
-      
-      initTimer();
-      renderMessages();
-      renderWishes();
-      
-      initDrawingBoard();
-      initGame();
-      
-      // 初始化图片预览
-      initImagePreview();
-      
-      // 新增功能初始化
-      createDateProgress();
-      createInteractionButtons();
-      createThemeToggle();
-      
-      // 游戏按钮监听
-      document.querySelector('[data-section="game"]').addEventListener('click', () => {
-        setTimeout(startGame, 500);
-      });
-      
-      // 添加CSS动画定义
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes fadeInOut {
-          0%, 100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
-          20%, 80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        // 更新统计信息
+        function updateStats() {
+            const totalQuestions = appState.questions.length;
+            let correctCount = 0;
+            let answeredCount = 0;
+            
+            appState.questions.forEach(q => {
+                if (appState.userAnswers[q.id]) {
+                    answeredCount++;
+                    if (appState.userAnswers[q.id] === q.correctAnswer) {
+                        correctCount++;
+                    }
+                }
+            });
+            
+            const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+            
+            elements.totalQuestions.textContent = totalQuestions;
+            elements.correctQuestions.textContent = correctCount;
+            elements.accuracyRate.textContent = `${accuracy}%`;
+            elements.currentQuestion.textContent = appState.currentQuestionIndex + 1;
+            
+            // 更新薄弱知识点
+            updateWeaknessList();
         }
-      `;
-      document.head.appendChild(style);
-    }
 
-    // 窗口大小变化时重新初始化
-    window.addEventListener('resize', () => {
-      initFloatSnow();
-      initHeartCanvas();
-      initConfetti();
-      initDrawingBoard();
-    });
+        // 更新薄弱知识点列表
+        function updateWeaknessList() {
+            const weaknesses = [];
+            
+            // 检查当前章节的错题
+            const chapter = appState.currentChapter;
+            const wrongQuestions = appState.questions.filter(q => 
+                appState.userAnswers[q.id] && appState.userAnswers[q.id] !== q.correctAnswer
+            );
+            
+            if (wrongQuestions.length > 0) {
+                wrongQuestions.forEach(q => {
+                    if (chapter === "解剖学") {
+                        if (q.id === 1) weaknesses.push("解剖学：方位术语（近端/远端）");
+                        if (q.id === 10) weaknesses.push("解剖学：器官位置（肺的位置）");
+                    } else if (chapter === "生物化学") {
+                        if (q.id === 4) weaknesses.push("生物化学：ATP生成方式");
+                    } else {
+                        weaknesses.push(`${chapter}：第${q.id}题相关知识点`);
+                    }
+                });
+            } else {
+                // 如果没有错题，显示通用薄弱点
+                weaknesses.push("解剖学：方位术语（近端/远端）");
+                weaknesses.push("解剖学：器官位置（肺的位置）");
+                weaknesses.push("生物化学：ATP生成方式");
+            }
+            
+            // 去重
+            const uniqueWeaknesses = [...new Set(weaknesses)];
+            
+            elements.weaknessList.innerHTML = '';
+            uniqueWeaknesses.forEach(weakness => {
+                const li = document.createElement('li');
+                li.textContent = weakness;
+                elements.weaknessList.appendChild(li);
+            });
+        }
 
-    // 页面加载完成后初始化
-    window.addEventListener('load', initPage);
-  </script>
+        // 更新进度条
+        function updateProgress() {
+            const total = appState.questions.length;
+            const answered = Object.keys(appState.userAnswers).length;
+            const percentage = total > 0 ? (answered / total) * 100 : 0;
+            
+            elements.progressFill.style.width = `${percentage}%`;
+            elements.answeredCount.textContent = answered;
+            elements.remainingCount.textContent = total - answered;
+        }
+
+        // 上一题
+        function prevQuestion() {
+            if (appState.currentQuestionIndex > 0) {
+                appState.currentQuestionIndex--;
+                appState.showCorrection = false;
+                renderQuestion();
+            }
+        }
+
+        // 下一题
+        function nextQuestion() {
+            if (appState.currentQuestionIndex < appState.questions.length - 1) {
+                appState.currentQuestionIndex++;
+                appState.showCorrection = false;
+                renderQuestion();
+            }
+        }
+
+        // 重新开始
+        function restartPractice() {
+            if (confirm("确定要重新开始练习吗？当前答题进度将丢失。")) {
+                loadQuestions();
+                renderQuestion();
+                updateStats();
+            }
+        }
+
+        // 设置事件监听器
+        function setupEventListeners() {
+            elements.prevBtn.addEventListener('click', prevQuestion);
+            elements.nextBtn.addEventListener('click', nextQuestion);
+            elements.submitBtn.addEventListener('click', submitAnswer);
+            elements.restartBtn.addEventListener('click', restartPractice);
+            
+            // 键盘导航
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') prevQuestion();
+                if (e.key === 'ArrowRight') nextQuestion();
+                if (e.key === 'Enter' && !elements.submitBtn.disabled) submitAnswer();
+                
+                // 数字键1-5选择选项
+                if (e.key >= '1' && e.key <= '5' && !appState.isSubmitted) {
+                    const optionLetter = String.fromCharCode(64 + parseInt(e.key)); // 1->A, 2->B, ...
+                    selectOption(optionLetter);
+                }
+            });
+        }
+
+        // 页面加载完成后初始化应用
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
 </body>
 </html>
