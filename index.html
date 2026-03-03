@@ -344,6 +344,87 @@
             margin-top: 16px;
         }
 
+        /* 工作台样式 */
+        .workspace-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .draw-card {
+            background: var(--p-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--tab-active-border);
+            border-radius: 40px;
+            padding: 40px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .draw-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--success-color);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .draw-card:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .draw-icon {
+            font-size: 64px;
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .draw-title {
+            color: var(--placeholder-text);
+            font-size: 32px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .draw-desc {
+            color: var(--placeholder-text);
+            font-size: 16px;
+            opacity: 0.8;
+            margin: 0;
+        }
+
+        .draw-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         /* 底栏样式 */
         .glass-tabbar {
             width: 100%;
@@ -432,7 +513,7 @@
             gap: 8px;
         }
 
-        /* 更多按钮 - 替代原来的dev-badge */
+        /* 更多按钮 */
         .more-btn {
             position: absolute;
             top: 24px;
@@ -452,6 +533,15 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .more-btn.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
         }
 
         .more-btn:hover {
@@ -558,7 +648,7 @@
             font-size: 24px;
         }
 
-        /* 关于面板 - 在抽屉内展开的留言区域 */
+        /* 关于面板 */
         .about-panel {
             background: var(--input-bg);
             backdrop-filter: blur(10px);
@@ -576,7 +666,7 @@
             display: block;
         }
 
-        /* 自定义毛玻璃弹窗样式 */
+        /* 自定义毛玻璃弹窗 */
         .custom-toast {
             position: fixed;
             top: 50%;
@@ -646,9 +736,9 @@
             <span>🌙</span> 夜间模式
         </div>
         
-        <!-- 更多按钮 (原dev-badge) -->
+        <!-- 更多按钮 -->
         <div class="more-btn" id="moreBtn">
-            <span>⋯</span> 更多
+            <span></span> 说明
         </div>
 
         <!-- 右侧浮窗抽屉 -->
@@ -659,30 +749,27 @@
                 <div class="drawer-close" id="drawerClose">✕</div>
             </div>
             
-            <!-- 关注作者 - 可跳转链接 (在此标注链接位置) -->
-            <a href="https://github.com/yourusername" target="_blank" style="text-decoration: none;" id="followLink">
+            <!-- 关注作者 -->
+            <a href="https://b23.tv/skV63Jp" target="_blank" style="text-decoration: none;" id="followLink">
                 <div class="drawer-item">
                     <span class="drawer-item-icon">❤️</span>
                     <span>关注作者</span>
                 </div>
             </a>
-            <!-- ↑ 请将上面的 https://github.com/yourusername 替换为你的实际关注链接 ↑ -->
             
-            <!-- 关于 - 预留留言区域 (在此标注修改位置) -->
+            <!-- 关于 -->
             <div class="drawer-item" id="aboutBtn">
                 <span class="drawer-item-icon">ℹ️</span>
                 <span>关于</span>
             </div>
             
-            <!-- 关于面板 - 留言内容在此修改 -->
+            <!-- 关于面板 -->
             <div class="about-panel" id="aboutPanel">
-                <!-- 在这里修改你的留言内容 ↓ -->
-                <p>✨ 欢迎使用毛玻璃QQ登录Demo</p>
+                <p>✨ 欢迎使用Fallwan</p>
                 <p>版本: 1.0.0</p>
-                <p>作者: Your Name</p>
-                <p>说明: 这是一个基于QQ头像API的毛玻璃界面演示，包含日间/夜间模式切换、自定义弹窗等功能。</p>
-                <p>📝 你可以在这里留下任何你想说的话...</p>
-                <!-- ↑ 请在上面修改你的留言内容 ↑ -->
+                <p>作者: 秋归晚</p>
+                <p>说明:当时年少青衫薄，骑马倚斜桥，满楼红袖招</p>
+                <p>企鹅🐧:2878494914<br>🐯微信：QGW2026<br>🐣github:秋归晚</p>
             </div>
         </div>
 
@@ -710,11 +797,21 @@
                 </div>
             </div>
             
-            <!-- 工作台 -->
+            <!-- 工作台 - 添加班级抽签功能 -->
             <div id="workspace" class="page">
-                <div class="page-placeholder">
-                    <h2>🛠️ 工作台</h2>
-                    <p>开发中 · 敬请期待</p>
+                <div class="workspace-container">
+                    <!-- 班级抽签卡片 -->
+                    <div class="draw-card glass-card" onclick="window.location.href='index3.html'">
+                        <div class="draw-icon">🎲</div>
+                        <h2 class="draw-title">班级抽签</h2>
+                        <p class="draw-desc">点击进入抽签系统</p>
+                        <div class="draw-badge">新功能</div>
+                    </div>
+                    
+                    <!-- 预留其他功能位置 -->
+                    <div class="more-tools" style="margin-top: 20px; text-align: center; opacity: 0.7;">
+                        <p style="color: var(--placeholder-text); font-size: 14px;">⚙️ 更多功能开发中...</p>
+                    </div>
                 </div>
             </div>
             
@@ -780,6 +877,7 @@
             // ========== 页面切换 ==========
             const tabs = document.querySelectorAll('.tab-item');
             const pages = document.querySelectorAll('.page');
+            const moreBtn = document.getElementById('moreBtn');
             
             const pageMap = {
                 'home': document.getElementById('home'),
@@ -798,6 +896,16 @@
                     if (tab.dataset.page === pageName) tab.classList.add('active');
                 });
 
+                // 控制更多按钮显示/隐藏
+                if (pageName === 'home') {
+                    moreBtn.classList.remove('hidden');
+                } else {
+                    moreBtn.classList.add('hidden');
+                    if (drawer.classList.contains('active')) {
+                        closeDrawer();
+                    }
+                }
+
                 if (pageName === 'profile' && !isLoggedIn) {
                     showLoginView();
                 }
@@ -812,7 +920,6 @@
             });
 
             // ========== 右侧浮窗抽屉逻辑 ==========
-            const moreBtn = document.getElementById('moreBtn');
             const drawer = document.getElementById('drawer');
             const drawerOverlay = document.getElementById('drawerOverlay');
             const drawerClose = document.getElementById('drawerClose');
@@ -827,14 +934,13 @@
             function closeDrawer() {
                 drawer.classList.remove('active');
                 drawerOverlay.classList.remove('active');
-                aboutPanel.classList.remove('show'); // 关闭抽屉时同时隐藏关于面板
+                aboutPanel.classList.remove('show');
             }
 
             moreBtn.addEventListener('click', openDrawer);
             drawerClose.addEventListener('click', closeDrawer);
             drawerOverlay.addEventListener('click', closeDrawer);
 
-            // 关于按钮点击切换留言面板
             aboutBtn.addEventListener('click', function() {
                 aboutPanel.classList.toggle('show');
             });
@@ -981,6 +1087,7 @@
                 }
             });
 
+            // 初始化
             switchPage('profile');
         })();
     </script>
