@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级抽签系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .panel {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .panel-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #4b6cb7;
+            color: #182848;
+        }
+        
+        .student-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        
+        .student-item {
+            padding: 8px 12px;
+            margin-bottom: 8px;
+            background-color: #f0f4f8;
+            border-radius: 4px;
+            border-left: 4px solid #4b6cb7;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        button {
+            padding: 10px 20px;
+            background-color: #4b6cb7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #3a559c;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .result-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #182848;
+        }
+        
+        .result-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .result-box {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .result-item {
+            padding: 10px;
+            margin-bottom: 8px;
+            background-color: #e8f4fc;
+            border-radius: 4px;
+            border-left: 4px solid #4b6cb7;
+        }
+        
+        .highlight {
+            background-color: #fff9e6;
+            border-left: 4px solid #ffc107;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .result-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>班级抽签系统</h1>
+            <p class="description">从男生和女生中随机抽取指定数量的人员<br>我使用了JavaScript的Math.random()函数来实现随机抽取。<br>by秋归晚</p>
+        </header>
+        
+        <div class="content">
+            <div class="panel">
+                <h2 class="panel-title">男生名单</h2>
+                <div class="student-list" id="boysList">
+                    <!-- 男生名单将通过JavaScript动态生成 -->
+                </div>
+                <div class="controls">
+                    <input type="number" id="boyCount" min="1" max="10" value="3" placeholder="抽取男生人数">
+                </div>
+            </div>
+            
+            <div class="panel">
+                <h2 class="panel-title">女生名单</h2>
+                <div class="student-list" id="girlsList">
+                    <!-- 女生名单将通过JavaScript动态生成 -->
+                </div>
+                <div class="controls">
+                    <input type="number" id="girlCount" min="1" max="10" value="4" placeholder="抽取女生人数">
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls" style="justify-content: center; padding: 0 20px;">
+            <button id="drawBtn">开始抽签</button>
+            <button id="resetBtn" style="background-color: #6c757d;">重新抽签</button>
+        </div>
+        
+        <div class="results">
+            <h2 class="result-title">抽签结果</h2>
+            <div class="result-container">
+                <div class="result-box">
+                    <h3 class="panel-title">抽取的男生</h3>
+                    <div id="boysResult">
+                        <!-- 男生抽签结果将显示在这里 -->
+                    </div>
+                </div>
+                <div class="result-box">
+                    <h3 class="panel-title">抽取的女生</h3>
+                    <div id="girlsResult">
+                        <!-- 女生抽签结果将显示在这里 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 男生名单（带宿舍号）
+        const boys = [
+            "薛金海 东三312",
+            "罗樑泽 东三413", "韦家理 东三413", "黄井雄 东三413", "蓝枫 东三413", "黄新朝 东三413", "李俊杰 东三413",
+            "林万松 东三414", "彭镭 东三414", "张环升 东三414", "张弦 东三414", "陈子霖 东三414", "苏兴泽 东三414",
+            "李朝毅 东三415", "吴品政 东三415", "陈国华 东三415", "覃国伟 东三415", "陶宇鸿 东三415", "邵天义 东三415",
+            "龙军杰 东三416", "沈嘉豪 东三416", "陈炜城 东三416"
+        ];
+        
+        // 女生名单（带宿舍号）
+        const girls = [
+            "姚静宜 东三604", "陆可鑫 东三604", "陆雅霞 东三604", "蓝花 东三604", "李万真 东三604",
+            "江欣然 东三605", "班西丽 东三605", "傅丽萍 东三605", "李田田 东三605", "覃耐彤 东三605", "翁嘉圆 东三605",
+            "龚彦瑶 东三606", "黄金兰 东三606", "潘容瑶 东三606", "吕心琪 东三606", "蒙林桃 东三606", "黎炫华 东三606",
+            "何杰桦 东三607", "梁玉勤 东三607", "黄静怡 东三607", "卢泳彤 东三607", "马小雲 东三607",
+            "文佳琳 东三608", "苏淑雨 东三608", "陈彩莲 东三608",
+            "梁诗音 东四510", "余海榕 东四510", "周海玲 东四510", "黎柔杞 东四510"
+        ];
+        
+        // 按宿舍号排序
+        boys.sort((a, b) => {
+            const dormA = a.split(' ')[1];
+            const dormB = b.split(' ')[1];
+            return dormA.localeCompare(dormB);
+        });
+        
+        girls.sort((a, b) => {
+            const dormA = a.split(' ')[1];
+            const dormB = b.split(' ')[1];
+            return dormA.localeCompare(dormB);
+        });
+        
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 填充男生名单
+            const boysList = document.getElementById('boysList');
+            boys.forEach(boy => {
+                const item = document.createElement('div');
+                item.className = 'student-item';
+                item.textContent = boy;
+                boysList.appendChild(item);
+            });
+            
+            // 填充女生名单
+            const girlsList = document.getElementById('girlsList');
+            girls.forEach(girl => {
+                const item = document.createElement('div');
+                item.className = 'student-item';
+                item.textContent = girl;
+                girlsList.appendChild(item);
+            });
+            
+            // 设置最大抽取人数
+            document.getElementById('boyCount').max = boys.length;
+            document.getElementById('girlCount').max = girls.length;
+        });
+        
+        // 抽签函数
+        function drawLots() {
+            const boyCount = parseInt(document.getElementById('boyCount').value);
+            const girlCount = parseInt(document.getElementById('girlCount').value);
+            
+            // 验证输入
+            if (isNaN(boyCount) || boyCount <= 0 || boyCount > boys.length) {
+                alert(`请输入有效的男生人数 (1-${boys.length})`);
+                return;
+            }
+            
+            if (isNaN(girlCount) || girlCount <= 0 || girlCount > girls.length) {
+                alert(`请输入有效的女生人数 (1-${girls.length})`);
+                return;
+            }
+            
+            // 随机抽取男生
+            const shuffledBoys = [...boys].sort(() => 0.5 - Math.random());
+            const selectedBoys = shuffledBoys.slice(0, boyCount);
+            
+            // 随机抽取女生
+            const shuffledGirls = [...girls].sort(() => 0.5 - Math.random());
+            const selectedGirls = shuffledGirls.slice(0, girlCount);
+            
+            // 显示结果
+            displayResults(selectedBoys, selectedGirls);
+        }
+        
+        // 显示结果函数
+        function displayResults(selectedBoys, selectedGirls) {
+            const boysResult = document.getElementById('boysResult');
+            const girlsResult = document.getElementById('girlsResult');
+            
+            // 清空之前的结果
+            boysResult.innerHTML = '';
+            girlsResult.innerHTML = '';
+            
+            // 显示男生结果
+            selectedBoys.forEach((boy, index) => {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                if (index === 0) item.classList.add('highlight');
+                item.textContent = `${index + 1}. ${boy}`;
+                boysResult.appendChild(item);
+            });
+            
+            // 显示女生结果
+            selectedGirls.forEach((girl, index) => {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                if (index === 0) item.classList.add('highlight');
+                item.textContent = `${index + 1}. ${girl}`;
+                girlsResult.appendChild(item);
+            });
+        }
+        
+        // 重置函数
+        function resetResults() {
+            document.getElementById('boysResult').innerHTML = '';
+            document.getElementById('girlsResult').innerHTML = '';
+            document.getElementById('boyCount').value = '3';
+            document.getElementById('girlCount').value = '4';
+        }
+        
+        // 绑定按钮事件
+        document.getElementById('drawBtn').addEventListener('click', drawLots);
+        document.getElementById('resetBtn').addEventListener('click', resetResults);
+    </script>
+</body>
+</html>
