@@ -46,9 +46,44 @@
         .glass-header, .draw-config, .dorm-config, .result-card, .class-detail-section {
             background: var(--panel-bg);
         }
-        .glass-header { padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--border-light); }
-        h1 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #3b82f6, #8b5cf6); background-clip: text; -webkit-background-clip: text; color: transparent; text-shadow: none; }
-        .sub { font-size: 0.6rem; color: var(--text-secondary); margin-top: 2px; }
+        /* 头部：改为左侧图片 + 右侧文字布局 */
+        .glass-header { 
+            padding: 14px 18px; 
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+            border-bottom: 1px solid var(--border-light); 
+            flex-wrap: nowrap;
+        }
+        .avatar-img {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border-light);
+            background: rgba(255,255,255,0.2);
+            flex-shrink: 0;
+        }
+        .title-area {
+            flex: 1;
+            text-align: left;
+        }
+        h1 { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6); 
+            background-clip: text; 
+            -webkit-background-clip: text; 
+            color: transparent; 
+        }
+        .sub { 
+            font-size: 0.6rem; 
+            color: var(--text-secondary); 
+            margin-top: 2px; 
+        }
+        .theme-actions {
+            flex-shrink: 0;
+        }
         .mode-bar { display: flex; justify-content: center; gap: 10px; padding: 14px 16px; flex-wrap: wrap; background: rgba(0,0,0,0.03); }
         .mode-btn, .class-info-btn { background: rgba(255,255,255,0.85); border: none; padding: 8px 16px; border-radius: 60px; font-size: 0.8rem; font-weight: 600; color: #1e293b; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; backdrop-filter: blur(2px); }
         body.dark .mode-btn, body.dark .class-info-btn { background: #2d3a4e; color: white; }
@@ -74,35 +109,34 @@
         .highlight { background: linear-gradient(95deg, rgba(59,130,246,0.25), rgba(37,99,235,0.15)); border-left: 4px solid var(--accent-gold); }
         .class-detail-section { margin: 16px 16px 18px; border-radius: 1.5rem; overflow: hidden; }
         .detail-header { padding: 14px 18px; background: rgba(0,0,0,0.06); cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600; }
-        .detail-content-wrapper {
-            display: grid;
-            grid-template-rows: 0fr;
-            transition: grid-template-rows 0.3s ease-out;
-        }
-        .detail-content-wrapper.open {
-            grid-template-rows: 1fr;
-        }
-        .detail-content-inner {
-            overflow: hidden;
-        }
-        .detail-content {
-            padding: 0 16px;
-        }
-        .detail-content.open {
-            padding: 12px 16px 16px;
-            border-top: 1px solid var(--border-light);
-        }
+        .detail-content-wrapper { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s ease-out; }
+        .detail-content-wrapper.open { grid-template-rows: 1fr; }
+        .detail-content-inner { overflow: hidden; }
+        .detail-content { padding: 0 16px; }
+        .detail-content.open { padding: 12px 16px 16px; border-top: 1px solid var(--border-light); }
         .student-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
         .student-chip { background: rgba(0,0,0,0.1); border-radius: 40px; padding: 5px 12px; font-size: 0.75rem; color: var(--text-primary); display: inline-flex; align-items: center; gap: 6px; }
         footer { text-align: center; padding: 12px; font-size: 0.6rem; color: var(--text-secondary); background: rgba(0,0,0,0.05); border-top: 1px solid var(--border-light); }
-        @media (max-width: 520px) { .glass-header { flex-direction: column; gap: 8px; text-align: center; } .mode-btn, .class-info-btn { padding: 6px 12px; font-size: 0.7rem; } }
+        @media (max-width: 520px) { 
+            .glass-header { gap: 10px; }
+            .avatar-img { width: 44px; height: 44px; }
+            h1 { font-size: 1.2rem; }
+            .mode-btn, .class-info-btn { padding: 6px 12px; font-size: 0.7rem; }
+        }
     </style>
 </head>
 <body>
 <div class="glass-container">
     <div class="glass-header">
-        <div class="title-area"><h1><i class="fas fa-dice-d6"></i> 2563班抽签系统</h1><div class="sub"><i class="fas fa-image"></i> 采用Fisher-Yates洗牌算法 | 公平随机不重复</div></div>
-        <div class="theme-actions"><button id="themeToggleBtn" class="icon-btn" style="background:rgba(0,0,0,0.15); border-radius:50%; width:38px; height:38px;"><i class="fas fa-moon"></i></button></div>
+        <!-- 左侧头像 -->
+        <img class="avatar-img" src="https://q1.qlogo.cn/g?b=qq&nk=3554770597&s=640" alt="头像" onerror="this.style.opacity='0.5'">
+        <div class="title-area">
+            <h1> 2563班抽签系统</h1>
+            <div class="sub">采用Fisher-Yates洗牌算法 | 公平随机不重复</div>
+        </div>
+        <div class="theme-actions">
+            <button id="themeToggleBtn" class="icon-btn" style="background:rgba(0,0,0,0.15); border-radius:50%; width:38px; height:38px;"><i class="fas fa-moon"></i></button>
+        </div>
     </div>
     <div class="mode-bar">
         <button id="classDetailToggleBtn" class="class-info-btn"><i class="fas fa-users-viewfinder"></i> 班级名录</button>
@@ -128,104 +162,249 @@
 </div>
 
 <script>
-    // 数据
-    const rawBoys = ["薛金海 东三312","罗樑泽 东三413","韦家理 东三413","黄井雄 东三413","蓝枫 东三413","黄新朝 东三413","李俊杰 东三413","林万松 东三414","彭镭 东三414","张环升 东三414","张弦 东三414","陈子霖 东三414","苏兴泽 东三414","李朝毅 东三415","吴品政 东三415","陈国华 东三415","覃国伟 东三415","陶宇鸿 东三415","邵天义 东三415","龙军杰 东三416","沈嘉豪 东三416","陈炜城 东三416"];
-    const rawGirls = ["姚静宜 东三604","陆可鑫 东三604","陆雅霞 东三604","蓝花 东三604","李万真 东三604","江欣然 东三605","班西丽 东三605","傅丽萍 东三605","李田田 东三605","覃耐彤 东三605","翁嘉圆 东三605","龚彦瑶 东三606","黄金兰 东三606","潘容瑶 东三606","吕心琪 东三606","蒙林桃 东三606","黎炫华 东三606","何杰桦 东三607","梁玉勤 东三607","黄静怡 东三607","卢泳彤 东三607","马小雲 东三607","文佳琳 东三608","苏淑雨 东三608","陈彩莲 东三608","梁诗音 东四510","余海榕 东四510","周海玲 东四510","黎柔杞 东四510"];
-    const allStudents = [...rawBoys.map(b=>({name:b,gender:'boy'})), ...rawGirls.map(g=>({name:g,gender:'girl'}))];
-    function getDorm(s){let p=s.split(' '); return p[1]||"未知";}
-    const dormMap = new Map();
-    [...rawBoys,...rawGirls].forEach(s=>{let d=getDorm(s); if(!dormMap.has(d))dormMap.set(d,[]); dormMap.get(d).push(s);});
-    const dormList = Array.from(dormMap.keys()).sort();
-    let currentMode="gender", isDark=false;
-    
-    // DOM 元素
-    const configPanel=document.getElementById("configPanel"), leftDiv=document.getElementById("resultLeftList"), rightDiv=document.getElementById("resultRightList"), leftTitle=document.getElementById("leftTitle"), rightTitle=document.getElementById("rightTitle"), executeBtn=document.getElementById("executeDrawBtn"), resetBtn=document.getElementById("resetResultBtn"), modeBtns=document.querySelectorAll(".mode-btn"), themeToggle=document.getElementById("themeToggleBtn"), classToggle=document.getElementById("classDetailToggleBtn"), detailWrapper=document.getElementById("detailWrapper"), detailArrow=document.getElementById("detailArrow"), detailContentDiv=document.getElementById("detailContent");
-    
-    // 辅助函数
-    function shuffle(arr){let c=[...arr]; for(let i=c.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];} return c;}
-    function draw(arr,n){if(!arr.length)return []; let num=Math.min(n,arr.length); return shuffle(arr).slice(0,num);}
-    
-    // 渲染班级详情
-    function renderClassDetail() {
-        if(detailContentDiv.children.length > 0) return;
-        detailContentDiv.innerHTML = "";
-        let b=document.createElement("div"); b.innerHTML=`<div class="student-group-title"><i class="fas fa-mars"></i> 男生 · ${rawBoys.length}人</div><div class="student-grid" id="boyGrid"></div>`; let boyGrid=b.querySelector("#boyGrid"); rawBoys.forEach(n=>{let c=document.createElement("div"); c.className="student-chip"; c.innerHTML=`<i class="fas fa-user"></i> ${n}`; boyGrid.appendChild(c);});
-        let g=document.createElement("div"); g.innerHTML=`<div class="student-group-title"><i class="fas fa-venus"></i> 女生 · ${rawGirls.length}人</div><div class="student-grid" id="girlGrid"></div>`; let girlGrid=g.querySelector("#girlGrid"); rawGirls.forEach(n=>{let c=document.createElement("div"); c.className="student-chip"; c.innerHTML=`<i class="fas fa-user"></i> ${n}`; girlGrid.appendChild(c);});
-        detailContentDiv.appendChild(b); detailContentDiv.appendChild(g);
-    }
-    
-    let detailOpen = false;
-    function toggleDetail() {
-        if (detailOpen) {
-            detailWrapper.classList.remove("open");
-            detailArrow.className = "fas fa-chevron-down";
-            detailContentDiv.classList.remove("open");
-        } else {
-            detailWrapper.classList.add("open");
-            detailArrow.className = "fas fa-chevron-up";
-            detailContentDiv.classList.add("open");
-            if (detailContentDiv.children.length === 0) renderClassDetail();
+    (function(){
+        // ----- 数据 -----
+        const rawBoys = ["薛金海 东三312","罗樑泽 东三413","韦家理 东三413","黄井雄 东三413","蓝枫 东三413","黄新朝 东三413","李俊杰 东三413","林万松 东三414","彭镭 东三414","张环升 东三414","张弦 东三414","陈子霖 东三414","苏兴泽 东三414","李朝毅 东三415","吴品政 东三415","陈国华 东三415","覃国伟 东三415","陶宇鸿 东三415","邵天义 东三415","龙军杰 东三416","沈嘉豪 东三416","陈炜城 东三416"];
+        const rawGirls = ["姚静宜 东三604","陆可鑫 东三604","陆雅霞 东三604","蓝花 东三604","李万真 东三604","江欣然 东三605","班西丽 东三605","傅丽萍 东三605","李田田 东三605","覃耐彤 东三605","翁嘉圆 东三605","龚彦瑶 东三606","黄金兰 东三606","潘容瑶 东三606","吕心琪 东三606","蒙林桃 东三606","黎炫华 东三606","何杰桦 东三607","梁玉勤 东三607","黄静怡 东三607","卢泳彤 东三607","马小雲 东三607","文佳琳 东三608","苏淑雨 东三608","陈彩莲 东三608","梁诗音 东四510","余海榕 东四510","周海玲 东四510","黎柔杞 东四510"];
+        const allStudents = [...rawBoys.map(b=>({name:b,gender:'boy'})), ...rawGirls.map(g=>({name:g,gender:'girl'}))];
+        
+        // 宿舍映射
+        const dormMap = new Map();
+        [...rawBoys, ...rawGirls].forEach(s => {
+            let dorm = s.split(' ')[1] || "未知";
+            if (!dormMap.has(dorm)) dormMap.set(dorm, []);
+            dormMap.get(dorm).push(s);
+        });
+        const dormList = Array.from(dormMap.keys()).sort();
+        
+        // ----- DOM 元素 -----
+        const configPanel = document.getElementById("configPanel");
+        const leftDiv = document.getElementById("resultLeftList");
+        const rightDiv = document.getElementById("resultRightList");
+        const leftTitle = document.getElementById("leftTitle");
+        const rightTitle = document.getElementById("rightTitle");
+        const executeBtn = document.getElementById("executeDrawBtn");
+        const resetBtn = document.getElementById("resetResultBtn");
+        const modeBtns = document.querySelectorAll(".mode-btn");
+        const themeToggle = document.getElementById("themeToggleBtn");
+        const classToggle = document.getElementById("classDetailToggleBtn");
+        const detailWrapper = document.getElementById("detailWrapper");
+        const detailArrow = document.getElementById("detailArrow");
+        const detailContent = document.getElementById("detailContent");
+        const detailHeader = document.getElementById("detailHeader");
+        
+        let currentMode = "gender";
+        let isDark = false;
+        
+        // ----- 辅助函数 -----
+        const shuffle = (arr) => {
+            const c = [...arr];
+            for (let i = c.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [c[i], c[j]] = [c[j], c[i]];
+            }
+            return c;
+        };
+        const draw = (arr, n) => arr.length ? shuffle(arr).slice(0, Math.min(n, arr.length)) : [];
+        
+        // ----- 渲染班级详细 (只执行一次) -----
+        let classDetailRendered = false;
+        function renderClassDetail() {
+            if (classDetailRendered) return;
+            detailContent.innerHTML = "";
+            // 男生
+            const boyDiv = document.createElement("div");
+            boyDiv.innerHTML = `<div class="student-group-title"><i class="fas fa-mars"></i> 男生 · ${rawBoys.length}人</div><div class="student-grid" id="boyGrid"></div>`;
+            const boyGrid = boyDiv.querySelector("#boyGrid");
+            rawBoys.forEach(n => {
+                const chip = document.createElement("div");
+                chip.className = "student-chip";
+                chip.innerHTML = `<i class="fas fa-user"></i> ${n}`;
+                boyGrid.appendChild(chip);
+            });
+            // 女生
+            const girlDiv = document.createElement("div");
+            girlDiv.innerHTML = `<div class="student-group-title"><i class="fas fa-venus"></i> 女生 · ${rawGirls.length}人</div><div class="student-grid" id="girlGrid"></div>`;
+            const girlGrid = girlDiv.querySelector("#girlGrid");
+            rawGirls.forEach(n => {
+                const chip = document.createElement("div");
+                chip.className = "student-chip";
+                chip.innerHTML = `<i class="fas fa-user"></i> ${n}`;
+                girlGrid.appendChild(chip);
+            });
+            detailContent.appendChild(boyDiv);
+            detailContent.appendChild(girlDiv);
+            classDetailRendered = true;
         }
-        detailOpen = !detailOpen;
-    }
-    
-    // 配置面板渲染
-    function renderConfig(){
-        if(currentMode==="all"){configPanel.innerHTML=`<div class="draw-config"><div class="input-group"><label><i class="fas fa-layer-group"></i> 抽取总人数 (1-${allStudents.length})</label><input type="number" id="totalDrawCount" min="1" max="${allStudents.length}" value="5"></div><div class="info-badge"><i class="fas fa-chalkboard-user"></i> 全员 ${allStudents.length}人</div></div>`;}
-        else if(currentMode==="gender"){configPanel.innerHTML=`<div class="draw-config"><div class="input-group"><label><i class="fas fa-mars"></i> 抽取男生 (1-${rawBoys.length})</label><input type="number" id="boyDrawCount" min="1" max="${rawBoys.length}" value="3"></div><div class="input-group"><label><i class="fas fa-venus"></i> 抽取女生 (1-${rawGirls.length})</label><input type="number" id="girlDrawCount" min="1" max="${rawGirls.length}" value="4"></div></div>`;}
-        else{configPanel.innerHTML=`<div class="dorm-config"><div class="input-group"><label><i class="fas fa-door-open"></i> 抽取宿舍数量 (1-${dormList.length})</label><input type="number" id="dormCountInput" min="1" max="${dormList.length}" value="2"></div><div class="info-badge"><i class="fas fa-building"></i> 共 ${dormList.length} 个宿舍</div></div>`;}
-        updateTitles();
-    }
-    function updateTitles(){if(currentMode==="dorm"){leftTitle.innerHTML='<i class="fas fa-building"></i> 抽中的宿舍'; rightTitle.innerHTML='<i class="fas fa-users-between"></i> 宿舍成员详情';}else{leftTitle.innerHTML='<i class="fas fa-mars"></i> 抽中男生'; rightTitle.innerHTML='<i class="fas fa-venus"></i> 抽中女生';}}
-    
-    function displayDouble(boys,girls){
-        leftDiv.innerHTML=""; rightDiv.innerHTML="";
-        if(boys.length===0)leftDiv.innerHTML='<div class="empty-tip">未抽中男生</div>'; else boys.forEach((n,i)=>{let d=document.createElement("div"); d.className="result-item"+(i===0?" highlight":""); d.innerHTML=`<i class="fas fa-user-check"></i> ${i+1}. ${n}`; leftDiv.appendChild(d);});
-        if(girls.length===0)rightDiv.innerHTML='<div class="empty-tip">未抽中女生</div>'; else girls.forEach((n,i)=>{let d=document.createElement("div"); d.className="result-item"+(i===0?" highlight":""); d.innerHTML=`<i class="fas fa-user-check"></i> ${i+1}. ${n}`; rightDiv.appendChild(d);});
-    }
-    
-    function displayDorm(dorms,members){
-        leftDiv.innerHTML=""; rightDiv.innerHTML="";
-        if(!dorms.length){leftDiv.innerHTML='<div class="empty-tip">未抽取宿舍</div>';return;}
-        dorms.forEach((d,i)=>{let div=document.createElement("div"); div.className="result-item"+(i===0?" highlight":""); div.innerHTML=`<i class="fas fa-door-closed"></i> ${i+1}. ${d} (${dormMap.get(d).length}人)`; leftDiv.appendChild(div);});
-        let map=new Map(); members.forEach(m=>{if(!map.has(m.dorm))map.set(m.dorm,[]); map.get(m.dorm).push(m.name);});
-        for(let [dorm,names] of map){let h=document.createElement("div"); h.style.cssText="margin:10px 0 6px; font-weight:bold; color:#facc15; border-left:2px solid #facc15; padding-left:8px;"; h.innerHTML=`<i class="fas fa-home"></i> ${dorm} · ${names.length}人`; rightDiv.appendChild(h); names.forEach((n,i)=>{let div=document.createElement("div"); div.className="result-item"; div.innerHTML=`<i class="fas fa-bed"></i> ${i+1}. ${n}`; rightDiv.appendChild(div);});}
-    }
-    
-    function performDraw(){
-        if(currentMode==="all"){
-            let total=parseInt(document.getElementById("totalDrawCount")?.value)||5;
-            total=Math.min(total,allStudents.length);
-            let sel=draw(allStudents,total);
-            displayDouble(sel.filter(s=>s.gender==='boy').map(s=>s.name), sel.filter(s=>s.gender==='girl').map(s=>s.name));
-        }else if(currentMode==="gender"){
-            let boyNum=Math.min(parseInt(document.getElementById("boyDrawCount")?.value)||3, rawBoys.length);
-            let girlNum=Math.min(parseInt(document.getElementById("girlDrawCount")?.value)||4, rawGirls.length);
-            displayDouble(draw(rawBoys,boyNum), draw(rawGirls,girlNum));
-        }else{
-            let cnt=Math.min(parseInt(document.getElementById("dormCountInput")?.value)||2, dormList.length);
-            let selected=shuffle(dormList).slice(0,cnt);
-            // 已去除薛金海不满意提示
-            let members=[];
-            selected.forEach(d=>{dormMap.get(d).forEach(m=>members.push({dorm:d,name:m}));});
-            displayDorm(selected,members);
+        
+        // 展开/收起班级名录
+        let detailOpen = false;
+        function toggleDetail() {
+            if (detailOpen) {
+                detailWrapper.classList.remove("open");
+                detailArrow.className = "fas fa-chevron-down";
+                detailContent.classList.remove("open");
+            } else {
+                detailWrapper.classList.add("open");
+                detailArrow.className = "fas fa-chevron-up";
+                detailContent.classList.add("open");
+                renderClassDetail();
+            }
+            detailOpen = !detailOpen;
         }
-    }
-    
-    function resetRes(){leftDiv.innerHTML='<div class="empty-tip">✨ 清空结果 ✨</div>'; rightDiv.innerHTML='<div class="empty-tip">✨ 等待抽签 ✨</div>';}
-    function initTheme(){let saved=localStorage.getItem("classTheme"); if(saved==="dark"){document.body.classList.add("dark"); themeToggle.innerHTML='<i class="fas fa-sun"></i>'; isDark=true;}else{document.body.classList.remove("dark"); themeToggle.innerHTML='<i class="fas fa-moon"></i>'; isDark=false;}}
-    function toggleTheme(){if(isDark){document.body.classList.remove("dark"); localStorage.setItem("classTheme","light"); themeToggle.innerHTML='<i class="fas fa-moon"></i>';}else{document.body.classList.add("dark"); localStorage.setItem("classTheme","dark"); themeToggle.innerHTML='<i class="fas fa-sun"></i>';} isDark=!isDark;}
-    function setMode(m){currentMode=m; modeBtns.forEach(btn=>{if(btn.getAttribute("data-mode")===m)btn.classList.add("active"); else btn.classList.remove("active");}); renderConfig(); resetRes();}
-    
-    modeBtns.forEach(btn=>btn.addEventListener("click",()=>setMode(btn.getAttribute("data-mode"))));
-    executeBtn.addEventListener("click",performDraw); resetBtn.addEventListener("click",resetRes); themeToggle.addEventListener("click",toggleTheme); classToggle.addEventListener("click",toggleDetail); if(document.getElementById("detailHeader"))document.getElementById("detailHeader").addEventListener("click",toggleDetail);
-    
-    initTheme(); setMode("gender"); 
-    renderClassDetail();
-    detailWrapper.classList.remove("open");
-    detailContentDiv.classList.remove("open");
-    detailArrow.className = "fas fa-chevron-down";
-    detailOpen = false;
+        
+        // ----- 界面渲染 -----
+        function updateTitles() {
+            if (currentMode === "dorm") {
+                leftTitle.innerHTML = '<i class="fas fa-building"></i> 抽中的宿舍';
+                rightTitle.innerHTML = '<i class="fas fa-users-between"></i> 宿舍成员详情';
+            } else {
+                leftTitle.innerHTML = '<i class="fas fa-mars"></i> 抽中男生';
+                rightTitle.innerHTML = '<i class="fas fa-venus"></i> 抽中女生';
+            }
+        }
+        
+        function renderConfig() {
+            if (currentMode === "all") {
+                configPanel.innerHTML = `<div class="draw-config"><div class="input-group"><label><i class="fas fa-layer-group"></i> 抽取总人数 (1-${allStudents.length})</label><input type="number" id="totalDrawCount" min="1" max="${allStudents.length}" value="5"></div><div class="info-badge"><i class="fas fa-chalkboard-user"></i> 全员 ${allStudents.length}人</div></div>`;
+            } else if (currentMode === "gender") {
+                configPanel.innerHTML = `<div class="draw-config"><div class="input-group"><label><i class="fas fa-mars"></i> 抽取男生 (1-${rawBoys.length})</label><input type="number" id="boyDrawCount" min="1" max="${rawBoys.length}" value="3"></div><div class="input-group"><label><i class="fas fa-venus"></i> 抽取女生 (1-${rawGirls.length})</label><input type="number" id="girlDrawCount" min="1" max="${rawGirls.length}" value="4"></div></div>`;
+            } else {
+                configPanel.innerHTML = `<div class="dorm-config"><div class="input-group"><label><i class="fas fa-door-open"></i> 抽取宿舍数量 (1-${dormList.length})</label><input type="number" id="dormCountInput" min="1" max="${dormList.length}" value="2"></div><div class="info-badge"><i class="fas fa-building"></i> 共 ${dormList.length} 个宿舍</div></div>`;
+            }
+            updateTitles();
+        }
+        
+        // ----- 结果展示 -----
+        function displayDouble(boys, girls) {
+            leftDiv.innerHTML = "";
+            rightDiv.innerHTML = "";
+            if (boys.length === 0) leftDiv.innerHTML = '<div class="empty-tip">未抽中男生</div>';
+            else boys.forEach((n, i) => {
+                const div = document.createElement("div");
+                div.className = "result-item" + (i === 0 ? " highlight" : "");
+                div.innerHTML = `<i class="fas fa-user-check"></i> ${i+1}. ${n}`;
+                leftDiv.appendChild(div);
+            });
+            if (girls.length === 0) rightDiv.innerHTML = '<div class="empty-tip">未抽中女生</div>';
+            else girls.forEach((n, i) => {
+                const div = document.createElement("div");
+                div.className = "result-item" + (i === 0 ? " highlight" : "");
+                div.innerHTML = `<i class="fas fa-user-check"></i> ${i+1}. ${n}`;
+                rightDiv.appendChild(div);
+            });
+        }
+        
+        function displayDorm(dorms, members) {
+            leftDiv.innerHTML = "";
+            rightDiv.innerHTML = "";
+            if (!dorms.length) { leftDiv.innerHTML = '<div class="empty-tip">未抽取宿舍</div>'; return; }
+            dorms.forEach((d, i) => {
+                const div = document.createElement("div");
+                div.className = "result-item" + (i === 0 ? " highlight" : "");
+                div.innerHTML = `<i class="fas fa-door-closed"></i> ${i+1}. ${d} (${dormMap.get(d).length}人)`;
+                leftDiv.appendChild(div);
+            });
+            const groupMap = new Map();
+            members.forEach(m => {
+                if (!groupMap.has(m.dorm)) groupMap.set(m.dorm, []);
+                groupMap.get(m.dorm).push(m.name);
+            });
+            for (let [dorm, names] of groupMap) {
+                const header = document.createElement("div");
+                header.style.cssText = "margin:10px 0 6px; font-weight:bold; color:#facc15; border-left:2px solid #facc15; padding-left:8px;";
+                header.innerHTML = `<i class="fas fa-home"></i> ${dorm} · ${names.length}人`;
+                rightDiv.appendChild(header);
+                names.forEach((n, i) => {
+                    const div = document.createElement("div");
+                    div.className = "result-item";
+                    div.innerHTML = `<i class="fas fa-bed"></i> ${i+1}. ${n}`;
+                    rightDiv.appendChild(div);
+                });
+            }
+        }
+        
+        // ----- 抽签核心 -----
+        function performDraw() {
+            if (currentMode === "all") {
+                let total = parseInt(document.getElementById("totalDrawCount")?.value) || 5;
+                total = Math.min(total, allStudents.length);
+                const selected = draw(allStudents, total);
+                displayDouble(selected.filter(s => s.gender === 'boy').map(s => s.name), selected.filter(s => s.gender === 'girl').map(s => s.name));
+            } else if (currentMode === "gender") {
+                let boyNum = Math.min(parseInt(document.getElementById("boyDrawCount")?.value) || 3, rawBoys.length);
+                let girlNum = Math.min(parseInt(document.getElementById("girlDrawCount")?.value) || 4, rawGirls.length);
+                displayDouble(draw(rawBoys, boyNum), draw(rawGirls, girlNum));
+            } else {
+                let cnt = Math.min(parseInt(document.getElementById("dormCountInput")?.value) || 2, dormList.length);
+                const selected = shuffle(dormList).slice(0, cnt);
+                const members = [];
+                selected.forEach(d => {
+                    dormMap.get(d).forEach(m => members.push({ dorm: d, name: m }));
+                });
+                displayDorm(selected, members);
+            }
+        }
+        
+        function resetResults() {
+            leftDiv.innerHTML = '<div class="empty-tip">✨ 清空结果 ✨</div>';
+            rightDiv.innerHTML = '<div class="empty-tip">✨ 等待抽签 ✨</div>';
+        }
+        
+        // ----- 主题切换 -----
+        function initTheme() {
+            const saved = localStorage.getItem("classTheme");
+            if (saved === "dark") {
+                document.body.classList.add("dark");
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+                isDark = true;
+            } else {
+                document.body.classList.remove("dark");
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+                isDark = false;
+            }
+        }
+        function toggleTheme() {
+            if (isDark) {
+                document.body.classList.remove("dark");
+                localStorage.setItem("classTheme", "light");
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                document.body.classList.add("dark");
+                localStorage.setItem("classTheme", "dark");
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+            isDark = !isDark;
+        }
+        
+        // ----- 模式切换 -----
+        function setMode(mode) {
+            currentMode = mode;
+            modeBtns.forEach(btn => {
+                if (btn.getAttribute("data-mode") === mode) btn.classList.add("active");
+                else btn.classList.remove("active");
+            });
+            renderConfig();
+            resetResults();
+        }
+        
+        // ----- 事件绑定 -----
+        modeBtns.forEach(btn => btn.addEventListener("click", () => setMode(btn.getAttribute("data-mode"))));
+        executeBtn.addEventListener("click", performDraw);
+        resetBtn.addEventListener("click", resetResults);
+        themeToggle.addEventListener("click", toggleTheme);
+        classToggle.addEventListener("click", toggleDetail);
+        if (detailHeader) detailHeader.addEventListener("click", toggleDetail);
+        
+        // ----- 启动 -----
+        initTheme();
+        setMode("gender");
+        renderClassDetail();
+        detailWrapper.classList.remove("open");
+        detailContent.classList.remove("open");
+        detailArrow.className = "fas fa-chevron-down";
+        detailOpen = false;
+    })();
 </script>
 </body>
 </html>
