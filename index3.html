@@ -2,346 +2,230 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>班级抽签系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>2563班抽签系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Microsoft YaHei', sans-serif;
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --bg-overlay: rgba(0, 0, 0, 0.08);
+            --card-bg: rgba(255, 255, 255, 0.6);
+            --panel-bg: rgba(245, 248, 255, 0.7);
+            --text-primary: #1e293b;
+            --text-secondary: #2c3e50;
+            --border-light: rgba(0, 0, 0, 0.12);
+            --accent-blue: #3b82f6;
+            --accent-gold: #f59e0b;
+            --shadow: 0 8px 20px rgba(0,0,0,0.08);
         }
-        
+        body.dark {
+            --bg-overlay: rgba(0, 0, 0, 0.4);
+            --card-bg: rgba(20, 25, 40, 0.7);
+            --panel-bg: rgba(30, 35, 55, 0.8);
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --border-light: rgba(255, 255, 255, 0.2);
+            --shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
         body {
-            background-color: #f5f7fa;
-            color: #333;
-            padding: 20px;
-            line-height: 1.6;
+            background-image: url('https://cdn.phototourl.com/free/2026-05-14-93a2d22b-8f41-4848-8695-97015e7e9506.jpg');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            padding: 16px 12px; display: flex; align-items: center; justify-content: center;
+            font-family: system-ui, sans-serif; position: relative; scroll-behavior: smooth;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-overlay); z-index: 0; pointer-events: none;
+        }
+        .glass-container {
+            position: relative; z-index: 2; max-width: 700px; width: 100%; margin: 0 auto;
+            background: var(--card-bg); backdrop-filter: blur(2px);
+            border-radius: 2rem; border: 1px solid var(--border-light);
+            box-shadow: var(--shadow); overflow: hidden;
+        }
+        .glass-header, .draw-config, .dorm-config, .result-card, .class-detail-section {
+            background: var(--panel-bg);
+        }
+        .glass-header { padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--border-light); }
+        h1 { font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #3b82f6, #8b5cf6); background-clip: text; -webkit-background-clip: text; color: transparent; text-shadow: none; }
+        .sub { font-size: 0.6rem; color: var(--text-secondary); margin-top: 2px; }
+        .mode-bar { display: flex; justify-content: center; gap: 10px; padding: 14px 16px; flex-wrap: wrap; background: rgba(0,0,0,0.03); }
+        .mode-btn, .class-info-btn { background: rgba(255,255,255,0.85); border: none; padding: 8px 16px; border-radius: 60px; font-size: 0.8rem; font-weight: 600; color: #1e293b; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: 0.2s; backdrop-filter: blur(2px); }
+        body.dark .mode-btn, body.dark .class-info-btn { background: #2d3a4e; color: white; }
+        .mode-btn.active { background: var(--accent-blue); color: white; }
+        .class-info-btn { background: #3b82f6; color: white; }
+        .draw-config, .dorm-config { padding: 18px 16px; margin-bottom: 20px; border-radius: 1.5rem; border: 1px solid var(--border-light); }
+        .input-group { margin-bottom: 14px; }
+        .input-group label { display: block; color: var(--text-primary); font-weight: 500; margin-bottom: 6px; font-size: 0.8rem; }
+        .input-group input, .select-group select { width: 100%; padding: 10px 14px; background: rgba(255,255,255,0.85); border: 1px solid var(--border-light); border-radius: 60px; font-size: 0.9rem; color: var(--text-primary); }
+        body.dark .input-group input, body.dark .select-group select { background: #334155; color: white; }
+        .info-badge { background: rgba(0,0,0,0.05); border-radius: 40px; padding: 8px 12px; font-size: 0.8rem; text-align: center; margin-top: 8px; color: var(--text-secondary); }
+        .action-buttons { display: flex; gap: 12px; margin: 8px 0 18px; }
+        .primary-btn, .secondary-btn { flex: 1; padding: 10px; border-radius: 60px; font-weight: 600; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; backdrop-filter: blur(2px); }
+        .primary-btn { background: #3b82f6; color: white; }
+        .secondary-btn { background: rgba(255,255,255,0.7); border: 1px solid var(--border-light); color: var(--text-primary); }
+        body.dark .secondary-btn { background: rgba(0,0,0,0.4); color: white; }
+        .results-area { display: flex; flex-direction: column; gap: 18px; margin-top: 6px; }
+        .result-card { border-radius: 1.5rem; padding: 16px; border: 1px solid var(--border-light); }
+        .result-card h3 { font-size: 1.1rem; color: var(--text-primary); border-left: 4px solid var(--accent-gold); padding-left: 12px; margin-bottom: 12px; }
+        .result-list { max-height: 260px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+        .result-item { background: rgba(0,0,0,0.08); margin-bottom: 8px; padding: 8px 12px; border-radius: 40px; color: var(--text-primary); font-size: 0.85rem; border-left: 3px solid var(--accent-blue); }
+        body.dark .result-item { background: rgba(255,255,255,0.12); }
+        .highlight { background: linear-gradient(95deg, rgba(59,130,246,0.25), rgba(37,99,235,0.15)); border-left: 4px solid var(--accent-gold); }
+        .class-detail-section { margin: 16px 16px 18px; border-radius: 1.5rem; overflow: hidden; }
+        .detail-header { padding: 14px 18px; background: rgba(0,0,0,0.06); cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: var(--text-primary); font-weight: 600; }
+        .detail-content-wrapper {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease-out;
+        }
+        .detail-content-wrapper.open {
+            grid-template-rows: 1fr;
+        }
+        .detail-content-inner {
             overflow: hidden;
         }
-        
-        header {
-            background: linear-gradient(135deg, #4b6cb7, #182848);
-            color: white;
-            padding: 20px;
-            text-align: center;
+        .detail-content {
+            padding: 0 16px;
         }
-        
-        h1 {
-            font-size: 2.2rem;
-            margin-bottom: 10px;
+        .detail-content.open {
+            padding: 12px 16px 16px;
+            border-top: 1px solid var(--border-light);
         }
-        
-        .description {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        .content {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 20px;
-            gap: 20px;
-        }
-        
-        .panel {
-            flex: 1;
-            min-width: 300px;
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .panel-title {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #4b6cb7;
-            color: #182848;
-        }
-        
-        .student-list {
-            max-height: 400px;
-            overflow-y: auto;
-            margin-bottom: 20px;
-        }
-        
-        .student-item {
-            padding: 8px 12px;
-            margin-bottom: 8px;
-            background-color: #f0f4f8;
-            border-radius: 4px;
-            border-left: 4px solid #4b6cb7;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        
-        input {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        
-        button {
-            padding: 10px 20px;
-            background-color: #4b6cb7;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-        }
-        
-        button:hover {
-            background-color: #3a559c;
-        }
-        
-        .results {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-        }
-        
-        .result-title {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            color: #182848;
-        }
-        
-        .result-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        
-        .result-box {
-            flex: 1;
-            min-width: 300px;
-            background-color: white;
-            border-radius: 8px;
-            padding: 15px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-        }
-        
-        .result-item {
-            padding: 10px;
-            margin-bottom: 8px;
-            background-color: #e8f4fc;
-            border-radius: 4px;
-            border-left: 4px solid #4b6cb7;
-        }
-        
-        .highlight {
-            background-color: #fff9e6;
-            border-left: 4px solid #ffc107;
-        }
-        
-        @media (max-width: 768px) {
-            .content {
-                flex-direction: column;
-            }
-            
-            .result-container {
-                flex-direction: column;
-            }
-        }
+        .student-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        .student-chip { background: rgba(0,0,0,0.1); border-radius: 40px; padding: 5px 12px; font-size: 0.75rem; color: var(--text-primary); display: inline-flex; align-items: center; gap: 6px; }
+        footer { text-align: center; padding: 12px; font-size: 0.6rem; color: var(--text-secondary); background: rgba(0,0,0,0.05); border-top: 1px solid var(--border-light); }
+        @media (max-width: 520px) { .glass-header { flex-direction: column; gap: 8px; text-align: center; } .mode-btn, .class-info-btn { padding: 6px 12px; font-size: 0.7rem; } }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>班级抽签系统</h1>
-            <p class="description">从男生和女生中随机抽取指定数量的人员<br>我使用了JavaScript的Math.random()函数来实现随机抽取。<br>by秋归晚</p>
-        </header>
-        
-        <div class="content">
-            <div class="panel">
-                <h2 class="panel-title">男生名单</h2>
-                <div class="student-list" id="boysList">
-                    <!-- 男生名单将通过JavaScript动态生成 -->
-                </div>
-                <div class="controls">
-                    <input type="number" id="boyCount" min="1" max="10" value="3" placeholder="抽取男生人数">
-                </div>
-            </div>
-            
-            <div class="panel">
-                <h2 class="panel-title">女生名单</h2>
-                <div class="student-list" id="girlsList">
-                    <!-- 女生名单将通过JavaScript动态生成 -->
-                </div>
-                <div class="controls">
-                    <input type="number" id="girlCount" min="1" max="10" value="4" placeholder="抽取女生人数">
-                </div>
-            </div>
+<div class="glass-container">
+    <div class="glass-header">
+        <div class="title-area"><h1><i class="fas fa-dice-d6"></i> 2563班抽签系统</h1><div class="sub"><i class="fas fa-image"></i> 采用Fisher-Yates洗牌算法 | 公平随机不重复</div></div>
+        <div class="theme-actions"><button id="themeToggleBtn" class="icon-btn" style="background:rgba(0,0,0,0.15); border-radius:50%; width:38px; height:38px;"><i class="fas fa-moon"></i></button></div>
+    </div>
+    <div class="mode-bar">
+        <button id="classDetailToggleBtn" class="class-info-btn"><i class="fas fa-users-viewfinder"></i> 班级名录</button>
+        <div class="mode-btn" data-mode="all"><i class="fas fa-users"></i> 一把抓</div>
+        <div class="mode-btn active" data-mode="gender"><i class="fas fa-venus-mars"></i> 分类抓</div>
+        <div class="mode-btn" data-mode="dorm"><i class="fas fa-building"></i> 抽宿舍号</div>
+    </div>
+    <div class="dynamic-panels"><div id="configPanel"></div><div class="action-buttons"><button id="executeDrawBtn" class="primary-btn"><i class="fas fa-hand-peace"></i> 开始抽签</button><button id="resetResultBtn" class="secondary-btn"><i class="fas fa-eraser"></i> 清空结果</button></div>
+    <div class="results-area"><div class="result-card"><h3 id="leftTitle"><i class="fas fa-trophy"></i> 抽签结果 · 组1</h3><div id="resultLeftList" class="result-list"><div class="empty-tip">✨ 等待抽签 ✨</div></div></div>
+    <div class="result-card"><h3 id="rightTitle"><i class="fas fa-clipboard-list"></i> 抽签结果 · 组2</h3><div id="resultRightList" class="result-list"><div class="empty-tip">✨ 等待抽签 ✨</div></div></div></div></div>
+    <div class="class-detail-section">
+        <div class="detail-header" id="detailHeader">
+            <span><i class="fas fa-address-book"></i> 班级完整名单 (点击展开/收起)</span>
+            <i id="detailArrow" class="fas fa-chevron-down"></i>
         </div>
-        
-        <div class="controls" style="justify-content: center; padding: 0 20px;">
-            <button id="drawBtn">开始抽签</button>
-            <button id="resetBtn" style="background-color: #6c757d;">重新抽签</button>
-        </div>
-        
-        <div class="results">
-            <h2 class="result-title">抽签结果</h2>
-            <div class="result-container">
-                <div class="result-box">
-                    <h3 class="panel-title">抽取的男生</h3>
-                    <div id="boysResult">
-                        <!-- 男生抽签结果将显示在这里 -->
-                    </div>
-                </div>
-                <div class="result-box">
-                    <h3 class="panel-title">抽取的女生</h3>
-                    <div id="girlsResult">
-                        <!-- 女生抽签结果将显示在这里 -->
-                    </div>
-                </div>
+        <div class="detail-content-wrapper" id="detailWrapper">
+            <div class="detail-content-inner">
+                <div id="detailContent" class="detail-content"></div>
             </div>
         </div>
     </div>
+    <footer><i class="far fa-copyright"></i> COPYRIGHT © 2023 - 2026 秋归晚. ALL RIGHTS RESERVED.<br>秋归晚 版权所有 | 粤网文[2026]0101-001号 | （署）网出证（粤）字第91号</footer>
+</div>
 
-    <script>
-        // 男生名单（带宿舍号）
-        const boys = [
-            "薛金海 东三312",
-            "罗樑泽 东三413", "韦家理 东三413", "黄井雄 东三413", "蓝枫 东三413", "黄新朝 东三413", "李俊杰 东三413",
-            "林万松 东三414", "彭镭 东三414", "张环升 东三414", "张弦 东三414", "陈子霖 东三414", "苏兴泽 东三414",
-            "李朝毅 东三415", "吴品政 东三415", "陈国华 东三415", "覃国伟 东三415", "陶宇鸿 东三415", "邵天义 东三415",
-            "龙军杰 东三416", "沈嘉豪 东三416", "陈炜城 东三416"
-        ];
-        
-        // 女生名单（带宿舍号）
-        const girls = [
-            "姚静宜 东三604", "陆可鑫 东三604", "陆雅霞 东三604", "蓝花 东三604", "李万真 东三604",
-            "江欣然 东三605", "班西丽 东三605", "傅丽萍 东三605", "李田田 东三605", "覃耐彤 东三605", "翁嘉圆 东三605",
-            "龚彦瑶 东三606", "黄金兰 东三606", "潘容瑶 东三606", "吕心琪 东三606", "蒙林桃 东三606", "黎炫华 东三606",
-            "何杰桦 东三607", "梁玉勤 东三607", "黄静怡 东三607", "卢泳彤 东三607", "马小雲 东三607",
-            "文佳琳 东三608", "苏淑雨 东三608", "陈彩莲 东三608",
-            "梁诗音 东四510", "余海榕 东四510", "周海玲 东四510", "黎柔杞 东四510"
-        ];
-        
-        // 按宿舍号排序
-        boys.sort((a, b) => {
-            const dormA = a.split(' ')[1];
-            const dormB = b.split(' ')[1];
-            return dormA.localeCompare(dormB);
-        });
-        
-        girls.sort((a, b) => {
-            const dormA = a.split(' ')[1];
-            const dormB = b.split(' ')[1];
-            return dormA.localeCompare(dormB);
-        });
-        
-        // 初始化页面
-        document.addEventListener('DOMContentLoaded', function() {
-            // 填充男生名单
-            const boysList = document.getElementById('boysList');
-            boys.forEach(boy => {
-                const item = document.createElement('div');
-                item.className = 'student-item';
-                item.textContent = boy;
-                boysList.appendChild(item);
-            });
-            
-            // 填充女生名单
-            const girlsList = document.getElementById('girlsList');
-            girls.forEach(girl => {
-                const item = document.createElement('div');
-                item.className = 'student-item';
-                item.textContent = girl;
-                girlsList.appendChild(item);
-            });
-            
-            // 设置最大抽取人数
-            document.getElementById('boyCount').max = boys.length;
-            document.getElementById('girlCount').max = girls.length;
-        });
-        
-        // 抽签函数
-        function drawLots() {
-            const boyCount = parseInt(document.getElementById('boyCount').value);
-            const girlCount = parseInt(document.getElementById('girlCount').value);
-            
-            // 验证输入
-            if (isNaN(boyCount) || boyCount <= 0 || boyCount > boys.length) {
-                alert(`请输入有效的男生人数 (1-${boys.length})`);
-                return;
-            }
-            
-            if (isNaN(girlCount) || girlCount <= 0 || girlCount > girls.length) {
-                alert(`请输入有效的女生人数 (1-${girls.length})`);
-                return;
-            }
-            
-            // 随机抽取男生
-            const shuffledBoys = [...boys].sort(() => 0.5 - Math.random());
-            const selectedBoys = shuffledBoys.slice(0, boyCount);
-            
-            // 随机抽取女生
-            const shuffledGirls = [...girls].sort(() => 0.5 - Math.random());
-            const selectedGirls = shuffledGirls.slice(0, girlCount);
-            
-            // 显示结果
-            displayResults(selectedBoys, selectedGirls);
+<script>
+    // 数据
+    const rawBoys = ["薛金海 东三312","罗樑泽 东三413","韦家理 东三413","黄井雄 东三413","蓝枫 东三413","黄新朝 东三413","李俊杰 东三413","林万松 东三414","彭镭 东三414","张环升 东三414","张弦 东三414","陈子霖 东三414","苏兴泽 东三414","李朝毅 东三415","吴品政 东三415","陈国华 东三415","覃国伟 东三415","陶宇鸿 东三415","邵天义 东三415","龙军杰 东三416","沈嘉豪 东三416","陈炜城 东三416"];
+    const rawGirls = ["姚静宜 东三604","陆可鑫 东三604","陆雅霞 东三604","蓝花 东三604","李万真 东三604","江欣然 东三605","班西丽 东三605","傅丽萍 东三605","李田田 东三605","覃耐彤 东三605","翁嘉圆 东三605","龚彦瑶 东三606","黄金兰 东三606","潘容瑶 东三606","吕心琪 东三606","蒙林桃 东三606","黎炫华 东三606","何杰桦 东三607","梁玉勤 东三607","黄静怡 东三607","卢泳彤 东三607","马小雲 东三607","文佳琳 东三608","苏淑雨 东三608","陈彩莲 东三608","梁诗音 东四510","余海榕 东四510","周海玲 东四510","黎柔杞 东四510"];
+    const allStudents = [...rawBoys.map(b=>({name:b,gender:'boy'})), ...rawGirls.map(g=>({name:g,gender:'girl'}))];
+    function getDorm(s){let p=s.split(' '); return p[1]||"未知";}
+    const dormMap = new Map();
+    [...rawBoys,...rawGirls].forEach(s=>{let d=getDorm(s); if(!dormMap.has(d))dormMap.set(d,[]); dormMap.get(d).push(s);});
+    const dormList = Array.from(dormMap.keys()).sort();
+    let currentMode="gender", isDark=false;
+    
+    // DOM 元素
+    const configPanel=document.getElementById("configPanel"), leftDiv=document.getElementById("resultLeftList"), rightDiv=document.getElementById("resultRightList"), leftTitle=document.getElementById("leftTitle"), rightTitle=document.getElementById("rightTitle"), executeBtn=document.getElementById("executeDrawBtn"), resetBtn=document.getElementById("resetResultBtn"), modeBtns=document.querySelectorAll(".mode-btn"), themeToggle=document.getElementById("themeToggleBtn"), classToggle=document.getElementById("classDetailToggleBtn"), detailWrapper=document.getElementById("detailWrapper"), detailArrow=document.getElementById("detailArrow"), detailContentDiv=document.getElementById("detailContent");
+    
+    // 辅助函数
+    function shuffle(arr){let c=[...arr]; for(let i=c.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];} return c;}
+    function draw(arr,n){if(!arr.length)return []; let num=Math.min(n,arr.length); return shuffle(arr).slice(0,num);}
+    
+    // 渲染班级详情
+    function renderClassDetail() {
+        if(detailContentDiv.children.length > 0) return;
+        detailContentDiv.innerHTML = "";
+        let b=document.createElement("div"); b.innerHTML=`<div class="student-group-title"><i class="fas fa-mars"></i> 男生 · ${rawBoys.length}人</div><div class="student-grid" id="boyGrid"></div>`; let boyGrid=b.querySelector("#boyGrid"); rawBoys.forEach(n=>{let c=document.createElement("div"); c.className="student-chip"; c.innerHTML=`<i class="fas fa-user"></i> ${n}`; boyGrid.appendChild(c);});
+        let g=document.createElement("div"); g.innerHTML=`<div class="student-group-title"><i class="fas fa-venus"></i> 女生 · ${rawGirls.length}人</div><div class="student-grid" id="girlGrid"></div>`; let girlGrid=g.querySelector("#girlGrid"); rawGirls.forEach(n=>{let c=document.createElement("div"); c.className="student-chip"; c.innerHTML=`<i class="fas fa-user"></i> ${n}`; girlGrid.appendChild(c);});
+        detailContentDiv.appendChild(b); detailContentDiv.appendChild(g);
+    }
+    
+    let detailOpen = false;
+    function toggleDetail() {
+        if (detailOpen) {
+            detailWrapper.classList.remove("open");
+            detailArrow.className = "fas fa-chevron-down";
+            detailContentDiv.classList.remove("open");
+        } else {
+            detailWrapper.classList.add("open");
+            detailArrow.className = "fas fa-chevron-up";
+            detailContentDiv.classList.add("open");
+            if (detailContentDiv.children.length === 0) renderClassDetail();
         }
-        
-        // 显示结果函数
-        function displayResults(selectedBoys, selectedGirls) {
-            const boysResult = document.getElementById('boysResult');
-            const girlsResult = document.getElementById('girlsResult');
-            
-            // 清空之前的结果
-            boysResult.innerHTML = '';
-            girlsResult.innerHTML = '';
-            
-            // 显示男生结果
-            selectedBoys.forEach((boy, index) => {
-                const item = document.createElement('div');
-                item.className = 'result-item';
-                if (index === 0) item.classList.add('highlight');
-                item.textContent = `${index + 1}. ${boy}`;
-                boysResult.appendChild(item);
-            });
-            
-            // 显示女生结果
-            selectedGirls.forEach((girl, index) => {
-                const item = document.createElement('div');
-                item.className = 'result-item';
-                if (index === 0) item.classList.add('highlight');
-                item.textContent = `${index + 1}. ${girl}`;
-                girlsResult.appendChild(item);
-            });
+        detailOpen = !detailOpen;
+    }
+    
+    // 配置面板渲染
+    function renderConfig(){
+        if(currentMode==="all"){configPanel.innerHTML=`<div class="draw-config"><div class="input-group"><label><i class="fas fa-layer-group"></i> 抽取总人数 (1-${allStudents.length})</label><input type="number" id="totalDrawCount" min="1" max="${allStudents.length}" value="5"></div><div class="info-badge"><i class="fas fa-chalkboard-user"></i> 全员 ${allStudents.length}人</div></div>`;}
+        else if(currentMode==="gender"){configPanel.innerHTML=`<div class="draw-config"><div class="input-group"><label><i class="fas fa-mars"></i> 抽取男生 (1-${rawBoys.length})</label><input type="number" id="boyDrawCount" min="1" max="${rawBoys.length}" value="3"></div><div class="input-group"><label><i class="fas fa-venus"></i> 抽取女生 (1-${rawGirls.length})</label><input type="number" id="girlDrawCount" min="1" max="${rawGirls.length}" value="4"></div></div>`;}
+        else{configPanel.innerHTML=`<div class="dorm-config"><div class="input-group"><label><i class="fas fa-door-open"></i> 抽取宿舍数量 (1-${dormList.length})</label><input type="number" id="dormCountInput" min="1" max="${dormList.length}" value="2"></div><div class="info-badge"><i class="fas fa-building"></i> 共 ${dormList.length} 个宿舍</div></div>`;}
+        updateTitles();
+    }
+    function updateTitles(){if(currentMode==="dorm"){leftTitle.innerHTML='<i class="fas fa-building"></i> 抽中的宿舍'; rightTitle.innerHTML='<i class="fas fa-users-between"></i> 宿舍成员详情';}else{leftTitle.innerHTML='<i class="fas fa-mars"></i> 抽中男生'; rightTitle.innerHTML='<i class="fas fa-venus"></i> 抽中女生';}}
+    
+    function displayDouble(boys,girls){
+        leftDiv.innerHTML=""; rightDiv.innerHTML="";
+        if(boys.length===0)leftDiv.innerHTML='<div class="empty-tip">未抽中男生</div>'; else boys.forEach((n,i)=>{let d=document.createElement("div"); d.className="result-item"+(i===0?" highlight":""); d.innerHTML=`<i class="fas fa-user-check"></i> ${i+1}. ${n}`; leftDiv.appendChild(d);});
+        if(girls.length===0)rightDiv.innerHTML='<div class="empty-tip">未抽中女生</div>'; else girls.forEach((n,i)=>{let d=document.createElement("div"); d.className="result-item"+(i===0?" highlight":""); d.innerHTML=`<i class="fas fa-user-check"></i> ${i+1}. ${n}`; rightDiv.appendChild(d);});
+    }
+    
+    function displayDorm(dorms,members){
+        leftDiv.innerHTML=""; rightDiv.innerHTML="";
+        if(!dorms.length){leftDiv.innerHTML='<div class="empty-tip">未抽取宿舍</div>';return;}
+        dorms.forEach((d,i)=>{let div=document.createElement("div"); div.className="result-item"+(i===0?" highlight":""); div.innerHTML=`<i class="fas fa-door-closed"></i> ${i+1}. ${d} (${dormMap.get(d).length}人)`; leftDiv.appendChild(div);});
+        let map=new Map(); members.forEach(m=>{if(!map.has(m.dorm))map.set(m.dorm,[]); map.get(m.dorm).push(m.name);});
+        for(let [dorm,names] of map){let h=document.createElement("div"); h.style.cssText="margin:10px 0 6px; font-weight:bold; color:#facc15; border-left:2px solid #facc15; padding-left:8px;"; h.innerHTML=`<i class="fas fa-home"></i> ${dorm} · ${names.length}人`; rightDiv.appendChild(h); names.forEach((n,i)=>{let div=document.createElement("div"); div.className="result-item"; div.innerHTML=`<i class="fas fa-bed"></i> ${i+1}. ${n}`; rightDiv.appendChild(div);});}
+    }
+    
+    function performDraw(){
+        if(currentMode==="all"){
+            let total=parseInt(document.getElementById("totalDrawCount")?.value)||5;
+            total=Math.min(total,allStudents.length);
+            let sel=draw(allStudents,total);
+            displayDouble(sel.filter(s=>s.gender==='boy').map(s=>s.name), sel.filter(s=>s.gender==='girl').map(s=>s.name));
+        }else if(currentMode==="gender"){
+            let boyNum=Math.min(parseInt(document.getElementById("boyDrawCount")?.value)||3, rawBoys.length);
+            let girlNum=Math.min(parseInt(document.getElementById("girlDrawCount")?.value)||4, rawGirls.length);
+            displayDouble(draw(rawBoys,boyNum), draw(rawGirls,girlNum));
+        }else{
+            let cnt=Math.min(parseInt(document.getElementById("dormCountInput")?.value)||2, dormList.length);
+            let selected=shuffle(dormList).slice(0,cnt);
+            // 已去除薛金海不满意提示
+            let members=[];
+            selected.forEach(d=>{dormMap.get(d).forEach(m=>members.push({dorm:d,name:m}));});
+            displayDorm(selected,members);
         }
-        
-        // 重置函数
-        function resetResults() {
-            document.getElementById('boysResult').innerHTML = '';
-            document.getElementById('girlsResult').innerHTML = '';
-            document.getElementById('boyCount').value = '3';
-            document.getElementById('girlCount').value = '4';
-        }
-        
-        // 绑定按钮事件
-        document.getElementById('drawBtn').addEventListener('click', drawLots);
-        document.getElementById('resetBtn').addEventListener('click', resetResults);
-    </script>
+    }
+    
+    function resetRes(){leftDiv.innerHTML='<div class="empty-tip">✨ 清空结果 ✨</div>'; rightDiv.innerHTML='<div class="empty-tip">✨ 等待抽签 ✨</div>';}
+    function initTheme(){let saved=localStorage.getItem("classTheme"); if(saved==="dark"){document.body.classList.add("dark"); themeToggle.innerHTML='<i class="fas fa-sun"></i>'; isDark=true;}else{document.body.classList.remove("dark"); themeToggle.innerHTML='<i class="fas fa-moon"></i>'; isDark=false;}}
+    function toggleTheme(){if(isDark){document.body.classList.remove("dark"); localStorage.setItem("classTheme","light"); themeToggle.innerHTML='<i class="fas fa-moon"></i>';}else{document.body.classList.add("dark"); localStorage.setItem("classTheme","dark"); themeToggle.innerHTML='<i class="fas fa-sun"></i>';} isDark=!isDark;}
+    function setMode(m){currentMode=m; modeBtns.forEach(btn=>{if(btn.getAttribute("data-mode")===m)btn.classList.add("active"); else btn.classList.remove("active");}); renderConfig(); resetRes();}
+    
+    modeBtns.forEach(btn=>btn.addEventListener("click",()=>setMode(btn.getAttribute("data-mode"))));
+    executeBtn.addEventListener("click",performDraw); resetBtn.addEventListener("click",resetRes); themeToggle.addEventListener("click",toggleTheme); classToggle.addEventListener("click",toggleDetail); if(document.getElementById("detailHeader"))document.getElementById("detailHeader").addEventListener("click",toggleDetail);
+    
+    initTheme(); setMode("gender"); 
+    renderClassDetail();
+    detailWrapper.classList.remove("open");
+    detailContentDiv.classList.remove("open");
+    detailArrow.className = "fas fa-chevron-down";
+    detailOpen = false;
+</script>
 </body>
 </html>
